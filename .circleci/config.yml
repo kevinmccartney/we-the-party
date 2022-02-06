@@ -35,6 +35,12 @@ jobs:
 
             cat tfapply
 
+      - run:
+          command: pwd
+      
+      - run:
+          command: ls -la
+
       - persist_to_workspace:
           root: .
           paths:
