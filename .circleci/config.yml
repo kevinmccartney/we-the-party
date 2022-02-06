@@ -50,8 +50,7 @@ workflows:
   plan_approve_apply:
     jobs:
       - plan-apply:
-          parameters:
-              wtp-environment: $CIRCLE_BRANCH
+          wtp-environment: $CIRCLE_BRANCH
           filters:
             branches:
               only:
