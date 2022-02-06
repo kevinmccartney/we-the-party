@@ -15,8 +15,16 @@ jobs:
           name: print environment
           command: |
             echo << parameters.wtp-environment >>
+
       - run:
-          command: echo $CIRCLE_BRANCH
+          command: |
+            if [ $CIRCLE_BRANCH = "master" ]; then
+              echo "it's master"
+            elif [ $CIRCLE_BRANCH = 'develop' ]; then
+              echo "it's develop"
+            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
+              echo "it's a feature"
+            fi
       # - run:
       #     name: terraform init & plan
       #     command: |
