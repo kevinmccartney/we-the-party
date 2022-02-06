@@ -1,0 +1,230 @@
+# https://support.circleci.com/hc/en-us/articles/360050351292-How-to-trigger-a-workflow-via-CircleCI-API-v2
+
+version: 2.1
+
+parameters:
+  initialize_feature_infra:
+    default: false
+    type: boolean
+    description: Determines if the initialize_feature_infra workflow should be run
+
+  destroy_feature_infra:
+    default: false
+    type: boolean
+    description: Determines if the destroy_feature_infra workflow should be run
+
+jobs:
+  hello_world:
+    working_directory: /tmp/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - run:
+          name: Hello world
+          command: echo "Hello, world"
+  plan-apply:
+    working_directory: /tmp/project
+    parameters:
+      project:
+        type: string
+        description: Determines which project to plan
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: 'terraform apply'
+          command: |
+            if [ $CIRCLE_BRANCH = "master" ]; then
+              tf_env="prod";
+            elif [ $CIRCLE_BRANCH = 'develop' ]; then
+              tf_env="dev";
+            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
+              tf_env="feature";
+            fi
+
+            if [ '<< parameters.project >>' = 'wtp-infra' ]; then
+              tf_env="";
+            fi
+
+            cd projects/<< parameters.project >>/terraform/${tf_env}
+            ls -la
+
+            if [ $tf_env = 'feature' ]; then
+              clean_env_name=${CIRCLE_BRANCH//\//-}
+
+              cat > variables.tfvars \<<EOF
+            wtp_environment = "${clean_env_name}"
+            wtp_aws_region = "us-east-1"
+            EOF
+            fi
+            
+            terraform init -input=false
+            terraform plan -out tfapply
+
+      - run:
+          command: pwd
+      
+      - run:
+          command: ls -la
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  apply:
+    parameters:
+      project:
+        type: string
+        description: Determines which project to plan
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: 'echoing directory contents'
+          command: |
+            ls -la terraform/feature
+      - run:
+          name: terraform
+          command: |
+            if [ $CIRCLE_BRANCH = "master" ]; then
+            tf_env="prod";
+            elif [ $CIRCLE_BRANCH = 'develop' ]; then
+              tf_env="dev";
+            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
+              tf_env="feature";
+            fi
+
+            if [ '<< parameters.project >>' = 'wtp-infra' ]; then
+              tf_env="";
+            fi
+
+            cd projects/<< parameters.project >>/terraform/${tf_env}
+            ls -la
+
+            if [ $tf_env = 'feature' ]; then
+              clean_env_name=${CIRCLE_BRANCH//\//-}
+
+              cat > variables.tfvars \<<EOF
+            wtp_environment = "${clean_env_name}"
+            wtp_aws_region = "us-east-1"
+            EOF
+            fi
+
+            terraform apply -auto-approve tfapply
+      
+
+workflows:
+  version: 2
+  wtp_admin:
+    when: 
+        and:
+          - not: << pipeline.parameters.initialize_feature_infra >>
+          - not: << pipeline.parameters.destroy_feature_infra >>
+          # - and:
+          #     - equal: [true, run_admin_workflow]
+    jobs:
+      - hello_world
+  wtp_client:
+    when: 
+        and:
+          - not: << pipeline.parameters.initialize_feature_infra >>
+          - not: << pipeline.parameters.destroy_feature_infra >>
+          # - and:
+          #     - equal: [true, run_client_workflow]
+    jobs:
+      - hello_world
+  wtp_infra:
+    when: 
+        and:
+          - not: << pipeline.parameters.initialize_feature_infra >>
+          - not: << pipeline.parameters.destroy_feature_infra >>
+          # - and:
+          #     - equal: [true, run_infra_workflow]
+    jobs:
+      - hello_world
+      - plan-apply:
+          project: 'wtp-infra'
+      - hold-apply:
+          type: approval
+          requires:
+            - plan-apply
+      - apply:
+          project: 'wtp-infra'
+          requires:
+            - hold-apply
+
+  # core_infra:
+  #   when: 
+  #       and:
+  #         - not: << pipeline.parameters.initialize_feature_infra >>
+  #         - not: << pipeline.parameters.destroy_feature_infra >>
+  #   jobs:
+  #     - plan-apply
+  #     - hold-apply:
+  #         type: approval
+  # feature:
+  #   when: 
+  #       and:
+  #         - not: << pipeline.parameters.initialize_feature_infra >>
+  #         - not: << pipeline.parameters.destroy_feature_infra >>
+  #         - and:
+  #             - matches: { pattern: "^feature/.+$", value: << pipeline.git.branch >> }
+  #   jobs:
+  #     - hold-apply:
+  #         type: approval
+  # dev:
+  #   when: 
+  #       and:
+  #         - not: << pipeline.parameters.initialize_feature_infra >>
+  #         - not: << pipeline.parameters.destroy_feature_infra >>
+  #         - and:
+  #             - equal: ['develop', << pipeline.git.branch >>]
+  #   jobs:
+  #     - hold-apply:
+  #         type: approval
+  # prod:
+  #   when: 
+  #       and:
+  #         - not: << pipeline.parameters.initialize_feature_infra >>
+  #         - not: << pipeline.parameters.destroy_feature_infra >>
+  #         - and:
+  #             - equal: ['master', << pipeline.git.branch >>]
+  #   jobs:
+  #     - hold-apply:
+  #         type: approval
+  initialize_feature_infra:
+    when: 
+        and:
+          - equal: [true, << pipeline.parameters.initialize_feature_infra >>]
+          - not: << pipeline.parameters.destroy_feature_infra >>
+    jobs:
+      - hold-apply:
+          type: approval
+  destroy_feature_infra:
+    when: 
+        and:
+          - not: << pipeline.parameters.initialize_feature_infra >>
+          - equal: [true, << pipeline.parameters.destroy_feature_infra >>]
+    jobs:
+      - hold-apply:
+          type: approval
+  # plan_approve_apply:
+  #   jobs:
+  #     - plan-apply:
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - develop
+  #               - /feature\/.*/
+  #     - hold-apply:
+  #         type: approval
+  #         requires:
+  #           - plan-apply
+  #     - apply:
+  #         requires:
+  #           - hold-apply
