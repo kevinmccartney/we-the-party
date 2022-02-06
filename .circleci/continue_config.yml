@@ -103,10 +103,10 @@ workflows:
           - and:
               - equal: [true, run_admin_workflow]
     jobs:
-      hello_world: 
-        - run:
-            name: Hello world
-            command: echo "Hello, world"
+      - hello_world: 
+          - run:
+              name: Hello world
+              command: echo "Hello, world"
   wtp_client:
     when: 
         and:
@@ -115,10 +115,10 @@ workflows:
           - and:
               - equal: [true, run_client_workflow]
     jobs:
-      hello_world: 
-        - run:
-            name: Hello world
-            command: echo "Hello, world"
+      - hello_world: 
+          - run:
+              name: Hello world
+              command: echo "Hello, world"
   wtp_infra:
     when: 
         and:
@@ -127,10 +127,10 @@ workflows:
           - and:
               - equal: [true, run_infra_workflow]
     jobs:
-      hello_world: 
-        - run:
-            name: Hello world
-            command: echo "Hello, world"
+      - hello_world: 
+          - run:
+              name: Hello world
+              command: echo "Hello, world"
   # core_infra:
   #   when: 
   #       and:
