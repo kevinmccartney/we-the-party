@@ -12,9 +12,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: hello world
+          name: print environment
           command: |
             echo << parameters.wtp-environment >>
+      - run:
+          command: echo $CIRCLE_BRANCH
       # - run:
       #     name: terraform init & plan
       #     command: |
@@ -50,7 +52,7 @@ workflows:
   plan_approve_apply:
     jobs:
       - plan-apply:
-          wtp-environment: echo $CIRCLE_BRANCH
+          wtp-environment: 'dev'
           filters:
             branches:
               only:
