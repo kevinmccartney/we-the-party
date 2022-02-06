@@ -3,19 +3,10 @@ version: 2.1
 jobs:
   plan-apply:
     working_directory: /tmp/project
-    parameters:
-      wtp-environment:
-        type: string
-        default: ''
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
-      # - run:
-      #     name: print environment
-      #     command: |
-      #       echo << parameters.wtp-environment >>
-
       - run:
           name: 'terraform apply'
           command: |
@@ -43,14 +34,11 @@ jobs:
             terraform plan -out tfapply -var-file variables.tfvars
 
             cat tfapply
-      # - run:
-      #     name: terraform init & plan
-      #     command: |
-      
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - .
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
 
   apply:
     docker:
@@ -73,7 +61,6 @@ workflows:
   plan_approve_apply:
     jobs:
       - plan-apply:
-          wtp-environment: echo $CIRCLE_BRANCH
           filters:
             branches:
               only:
