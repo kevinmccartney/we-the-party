@@ -1,5 +1,5 @@
 terraform {
-  # backend "s3" {}
+  backend "s3" {}
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -8,15 +8,15 @@ terraform {
   }
 }
 
-# data "terraform_remote_state" "state" {
-#   backend = "s3"
-#   config = {
-#     bucket     = "wtp-infra-state"
-#     lock_table = "wtp-infra-state-locks"
-#     region     = var.wtp_aws_region
-#     key        = "terraform.tfstate"
-#   }
-# }
+data "terraform_remote_state" "state" {
+  backend = "s3"
+  config = {
+    bucket     = "wtp-state"
+    lock_table = "wtp-infra-state-locks"
+    region     = var.wtp_aws_region
+    key        = "infra-terraform.tfstate"
+  }
+}
 
 
 provider "aws" {
