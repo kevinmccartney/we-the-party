@@ -24,7 +24,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "wt-state"
+  bucket = "wtp-state"
   versioning {
     enabled = true
   }
