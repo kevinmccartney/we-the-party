@@ -26,7 +26,6 @@ jobs:
     working_directory: /tmp/project
     parameters:
       project:
-        default: false
         type: string
         description: Determines which project to plan
     docker:
