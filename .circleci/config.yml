@@ -7,9 +7,6 @@ jobs:
       wtp-environment:
         type: string
         default: ''
-      foo:
-        type: string
-        default: ''
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
@@ -17,7 +14,7 @@ jobs:
       - run:
           name: print environment
           command: |
-            echo << parameters.foo >>
+            echo << parameters.wtp-environment >>
       - run:
           command: echo $CIRCLE_BRANCH
       # - run:
@@ -55,18 +52,17 @@ workflows:
   plan_approve_apply:
     jobs:
       - plan-apply:
-          # wtp-environment: 'dev'
-          foo: 'bar'
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      #           - develop
-      #           - /feature\/.*/
-      # - hold-apply:
-      #     type: approval
-      #     requires:
-      #       - plan-apply
-      # - apply:
-      #     requires:
-      #       - hold-apply
+          wtp-environment: echo $CIRCLE_BRANCH
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+                - /feature\/.*/
+      - hold-apply:
+          type: approval
+          requires:
+            - plan-apply
+      - apply:
+          requires:
+            - hold-apply
