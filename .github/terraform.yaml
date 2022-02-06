@@ -48,6 +48,8 @@ on:
   push:
     branches:
     - master
+    - develop
+    - feature/*
   pull_request:
 
 jobs:
