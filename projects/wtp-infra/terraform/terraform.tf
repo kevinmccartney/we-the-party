@@ -16,7 +16,7 @@ data "terraform_remote_state" "state" {
   backend = "s3"
   config = {
     bucket     = "wtp-state"
-    lock_table = "wtp-infra-state-locks"
+    dynamodb_table  = "wtp-infra-state-locks"
     region     = var.wtp_aws_region
     key        = "infra-terraform.tfstate"
   }
