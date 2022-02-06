@@ -2,6 +2,17 @@
 
 version: 2.1
 
+parameters:
+  initialize_feature_infra:
+    default: false
+    type: boolean
+    description: Determines if the initialize_feature_infra workflow should be run
+
+  destroy_feature_infra:
+    default: false
+    type: boolean
+    description: Determines if the destroy_feature_infra workflow should be run
+
 jobs:
   # check_branch:
   #   docker:
