@@ -1,182 +1,31 @@
-# https://support.circleci.com/hc/en-us/articles/360050351292-How-to-trigger-a-workflow-via-CircleCI-API-v2
-
 version: 2.1
 
-parameters:
-  initialize_feature_infra:
-    default: false
-    type: boolean
-    description: Determines if the initialize_feature_infra workflow should be run
+# this allows you to use CircleCI's dynamic configuration feature
+setup: true
 
-  destroy_feature_infra:
-    default: false
-    type: boolean
-    description: Determines if the destroy_feature_infra workflow should be run
-
-jobs:
-  # check_branch:
-  #   docker:
-  #     # Change this later
-  #     - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-  #   parameters:
-  #     branch_filter:
-  #       description: A filtering statement representing the branch(es) appropriate to build
-  #       type: string
-  #   filters:
-  #       branches:
-  #         only: << parameters.branch_filter >>
-  #   steps:
-  #     - run:
-  #         command: 'Branch is ${CIRCLE_BRANCH}'
-  
-  plan-apply:
-    working_directory: /tmp/project
-    docker:
-      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-    steps:
-      - checkout
-      - run:
-          name: 'terraform apply'
-          command: |
-            if [ $CIRCLE_BRANCH = "master" ]; then
-              tf_env="prod";
-            elif [ $CIRCLE_BRANCH = 'develop' ]; then
-              tf_env="dev";
-            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
-              tf_env="feature";
-            fi
-
-            cd terraform/${tf_env}
-            ls -la
-
-            if [ $tf_env = 'feature' ]; then
-              clean_env_name=${CIRCLE_BRANCH//\//-}
-
-              cat > variables.tfvars \<<EOF
-            wtp_environment = "${clean_env_name}"
-            wtp_aws_region = "us-east-1"
-            EOF
-            fi
-            
-            terraform init -input=false
-            terraform plan -out tfapply -var-file variables.tfvars
-
-      - run:
-          command: pwd
-      
-      - run:
-          command: ls -la
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
-  apply:
-    docker:
-      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: 'echoing directory contents'
-          command: |
-            ls -la terraform/feature
-      - run:
-          name: terraform
-          command: |
-            if [ $CIRCLE_BRANCH = "master" ]; then
-              tf_env="prod";
-            elif [ $CIRCLE_BRANCH = 'develop' ]; then
-              tf_env="dev";
-            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
-              tf_env="feature";
-            fi
-
-            cd terraform/${tf_env}
-            ls -la
-
-            if [ $tf_env = 'feature' ]; then
-              clean_env_name=${CIRCLE_BRANCH//\//-}
-
-              cat > variables.tfvars \<<EOF
-            wtp_environment = "${clean_env_name}"
-            wtp_aws_region = "us-east-1"
-            EOF
-            fi
-
-            terraform apply -auto-approve tfapply
-      
+# the path-filtering orb is required to continue a pipeline based on
+# the path of an updated fileset
+orbs:
+  path-filtering: circleci/path-filtering@0.0.2
 
 workflows:
-  version: 2
-  core_infra:
-    when: 
-        and:
-          - not: << pipeline.parameters.initialize_feature_infra >>
-          - not: << pipeline.parameters.destroy_feature_infra >>
+  # the always-run workflow is always triggered, regardless of the pipeline parameters.
+  always-run:
     jobs:
-      - hold-apply:
-          type: approval
-  feature:
-    when: 
-        and:
-          - not: << pipeline.parameters.initialize_feature_infra >>
-          - not: << pipeline.parameters.destroy_feature_infra >>
-          - and:
-              - matches: { pattern: "^feature/.+$", value: << pipeline.git.branch >> }
-    jobs:
-      - hold-apply:
-          type: approval
-  dev:
-    when: 
-        and:
-          - not: << pipeline.parameters.initialize_feature_infra >>
-          - not: << pipeline.parameters.destroy_feature_infra >>
-          - and:
-              - equal: ['develop', << pipeline.git.branch >>]
-    jobs:
-      - hold-apply:
-          type: approval
-  prod:
-    when: 
-        and:
-          - not: << pipeline.parameters.initialize_feature_infra >>
-          - not: << pipeline.parameters.destroy_feature_infra >>
-          - and:
-              - equal: ['master', << pipeline.git.branch >>]
-    jobs:
-      - hold-apply:
-          type: approval
-  initialize_feature_infra:
-    when: 
-        and:
-          - equal: [true, << pipeline.parameters.initialize_feature_infra >>]
-          - not: << pipeline.parameters.destroy_feature_infra >>
-    jobs:
-      - hold-apply:
-          type: approval
-  destroy_feature_infra:
-    when: 
-        and:
-          - not: << pipeline.parameters.initialize_feature_infra >>
-          - equal: [true, << pipeline.parameters.destroy_feature_infra >>]
-    jobs:
-      - hold-apply:
-          type: approval
-  # plan_approve_apply:
-  #   jobs:
-  #     - plan-apply:
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-  #               - develop
-  #               - /feature\/.*/
-  #     - hold-apply:
-  #         type: approval
-  #         requires:
-  #           - plan-apply
-  #     - apply:
-  #         requires:
-  #           - hold-apply
+      # the path-filtering/filter job determines which pipeline
+      # parameters to update.
+      - path-filtering/filter:
+          name: check-updated-files
+          # 3-column, whitespace-delimited mapping. One mapping per
+          # line:
+          # <regex path-to-test> <parameter-to-set> <value-of-pipeline-parameter>
+          mapping: |
+            projects/wtp_admin.* run_admin_workflow true
+            projects/wtp_client.* run_client_workflow true
+            projects/wtp_infra.* run_infra_workflow true
+          base-revision: $CIRCLE_BRANCH
+          # this is the path of the configuration we should trigger once
+          # path filtering and pipeline parameter value updates are
+          # complete. In this case, we are using the parent dynamic
+          # configuration itself.
+          config-path: .circleci/continue_config.yml
