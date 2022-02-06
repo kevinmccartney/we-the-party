@@ -33,7 +33,7 @@ jobs:
             if [ $tf_env = 'feature' ]; then
               clean_env_name=${branch//\//-}
 
-              cat > variables.tfvars \\<<EOF
+              cat > variables.tfvars \<<EOF
             wtp_environment = '${clean_env_name}'
             wtp_aws_region = 'us-east-1'
             EOF
