@@ -52,17 +52,17 @@ workflows:
   plan_approve_apply:
     jobs:
       - plan-apply:
-          # wtp-environment: 'dev'
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - /feature\/.*/
-      - hold-apply:
-          type: approval
-          requires:
-            - plan-apply
-      - apply:
-          requires:
-            - hold-apply
+          wtp-environment: 'dev'
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #           - develop
+      #           - /feature\/.*/
+      # - hold-apply:
+      #     type: approval
+      #     requires:
+      #       - plan-apply
+      # - apply:
+      #     requires:
+      #       - hold-apply
