@@ -5,8 +5,8 @@ jobs:
     working_directory: /tmp/project
     parameters:
       wtp-environment:
-          type: string
-          default: ''
+        type: string
+        default: ''
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
@@ -52,7 +52,7 @@ workflows:
   plan_approve_apply:
     jobs:
       - plan-apply:
-          wtp-environment: 'dev'
+          # wtp-environment: 'dev'
           filters:
             branches:
               only:
