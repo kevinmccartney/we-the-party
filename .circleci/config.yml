@@ -62,14 +62,10 @@ jobs:
           name: 'Hello world'
           command: |
             echo "Hello world"
-      # - run:
-      #     name: terraform
-      #     command: |
-      #       terraform apply -auto-approve tfapply
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - .
+      - run:
+          name: terraform
+          command: |
+            terraform apply -auto-approve tfapply
       
 
 workflows:
