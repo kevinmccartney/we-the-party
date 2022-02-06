@@ -29,14 +29,17 @@ jobs:
               tf_env="feature";
             fi
 
-            echo $tf_env
+            cd terraform/${tf_env}
+            ls -la
+            
+            # terraform init -input=false
+            # terraform plan -out tfapply -var-file variables.tfvars
       - run: |
           echo $tf_env
       # - run:
       #     name: terraform init & plan
       #     command: |
-      #       terraform init -input=false
-      #       terraform plan -out tfapply -var-file variables.tfvars
+      
       # - persist_to_workspace:
       #     root: .
       #     paths:
