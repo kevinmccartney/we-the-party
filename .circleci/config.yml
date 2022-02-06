@@ -47,9 +47,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: 'Hello world'
+          name: 'echoing directory contents'
           command: |
-            echo "Hello world"
+            ls -la
       - run:
           name: terraform
           command: |
