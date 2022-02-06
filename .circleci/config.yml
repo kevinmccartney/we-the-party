@@ -19,15 +19,17 @@ jobs:
       - run:
           command: |
             if [ $CIRCLE_BRANCH = "master" ]; then
-              echo "it's master"
+              # echo "it's master"
               tf_env="prod";
             elif [ $CIRCLE_BRANCH = 'develop' ]; then
-              echo "it's develop"
+              # echo "it's develop"
               tf_env="dev";
             elif [[ $CIRCLE_BRANCH == feature/* ]]; then
-              echo "it's a feature"
+              # echo "it's a feature"
               tf_env="feature";
             fi
+
+            echo $tf_env
       - run: |
           echo $tf_env
       # - run:
