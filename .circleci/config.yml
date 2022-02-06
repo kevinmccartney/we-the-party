@@ -11,20 +11,25 @@ jobs:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
-      - run:
-          name: print environment
-          command: |
-            echo << parameters.wtp-environment >>
+      # - run:
+      #     name: print environment
+      #     command: |
+      #       echo << parameters.wtp-environment >>
 
       - run:
           command: |
             if [ $CIRCLE_BRANCH = "master" ]; then
               echo "it's master"
+              tf_env="prod";
             elif [ $CIRCLE_BRANCH = 'develop' ]; then
               echo "it's develop"
+              tf_env="dev";
             elif [[ $CIRCLE_BRANCH == feature/* ]]; then
               echo "it's a feature"
+              tf_env="feature";
             fi
+      - run: |
+          echo $tf_env
       # - run:
       #     name: terraform init & plan
       #     command: |
