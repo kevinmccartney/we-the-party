@@ -3,20 +3,20 @@
 version: 2.1
 
 jobs:
-  check_branch:
-    docker:
-      # Change this later
-      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-    parameters:
-      branch_filter:
-        description: A filtering statement representing the branch(es) appropriate to build
-        type: string
-    filters:
-        branches:
-          only: << parameters.branch_filter >>
-    steps:
-      - run:
-          command: 'Branch is ${CIRCLE_BRANCH}'
+  # check_branch:
+  #   docker:
+  #     # Change this later
+  #     - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+  #   parameters:
+  #     branch_filter:
+  #       description: A filtering statement representing the branch(es) appropriate to build
+  #       type: string
+  #   filters:
+  #       branches:
+  #         only: << parameters.branch_filter >>
+  #   steps:
+  #     - run:
+  #         command: 'Branch is ${CIRCLE_BRANCH}'
   
   plan-apply:
     working_directory: /tmp/project
