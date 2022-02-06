@@ -17,6 +17,7 @@ jobs:
       #       echo << parameters.wtp-environment >>
 
       - run:
+          name: 'terraform apply'
           command: |
             if [ $CIRCLE_BRANCH = "master" ]; then
               # echo "it's master"

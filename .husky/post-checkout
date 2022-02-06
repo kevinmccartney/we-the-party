@@ -7,7 +7,7 @@ if [[ "$branch" =~ ^feature\/.* ]]; then
   clean_env_name=${branch//\//-}
 
   cat > $PWD/terraform/feature/.tfvars <<EOF
-wtp_environment=${clean_env_name}"
+wtp_environment = '${clean_env_name}'
 wtp_aws_region = 'us-east-1'
 EOF
 fi
