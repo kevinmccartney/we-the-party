@@ -44,7 +44,7 @@ jobs:
             fi
 
             if [ '<< parameters.project >>' = 'wtp-infra' ]; then
-              tf_env="core";
+              tf_env="";
             fi
 
             cd projects/<< parameters.project >>/terraform/${tf_env}
@@ -99,7 +99,7 @@ jobs:
             fi
 
             if [ '<< parameters.project >>' = 'wtp-infra' ]; then
-              tf_env="core";
+              tf_env="";
             fi
 
             cd projects/<< parameters.project >>/terraform/${tf_env}
