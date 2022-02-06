@@ -71,6 +71,9 @@ jobs:
     - name: List working directory contents
       run: ls -la
 
+    - name: Print working directory
+      run: pwd
+
     # # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     # - name: Setup Terraform
     #   uses: hashicorp/setup-terraform@v1
