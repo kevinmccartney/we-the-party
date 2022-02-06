@@ -45,7 +45,7 @@ jobs:
               tf_env="core";
             fi
 
-            cd projects/<< parameters.projects >>/terraform/${tf_env}
+            cd projects/<< parameters.project >>/terraform/${tf_env}
             ls -la
 
             if [ $tf_env = 'feature' ]; then
