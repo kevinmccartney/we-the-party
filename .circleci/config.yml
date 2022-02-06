@@ -33,8 +33,6 @@ jobs:
             terraform init -input=false
             terraform plan -out tfapply -var-file variables.tfvars
 
-            cat tfapply
-
       - run:
           command: pwd
       
@@ -55,10 +53,30 @@ jobs:
       - run:
           name: 'echoing directory contents'
           command: |
-            ls -la
+            ls -la terraform/feature
       - run:
           name: terraform
           command: |
+            if [ $CIRCLE_BRANCH = "master" ]; then
+              tf_env="prod";
+            elif [ $CIRCLE_BRANCH = 'develop' ]; then
+              tf_env="dev";
+            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
+              tf_env="feature";
+            fi
+
+            cd terraform/${tf_env}
+            ls -la
+
+            if [ $tf_env = 'feature' ]; then
+              clean_env_name=${CIRCLE_BRANCH//\//-}
+
+              cat > variables.tfvars \<<EOF
+            wtp_environment = "${clean_env_name}"
+            wtp_aws_region = "us-east-1"
+            EOF
+            fi
+
             terraform apply -auto-approve tfapply
       
 
