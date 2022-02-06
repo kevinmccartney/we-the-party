@@ -1,0 +1,26 @@
+{
+  "name": "wtp-admin",
+  "version": "0.0.1",
+  "description": "A social jukebox, for friends, enemies, & everyone in between",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinmccartney/we-the-party.git"
+  },
+  "keywords": [
+    "we the party",
+    "social jukebox",
+    "spotify",
+    "admin",
+    "dashboard"
+  ],
+  "author": "Kevin McCartney <hello@kevinmccartney.is>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinmccartney/we-the-party/issues"
+  },
+  "homepage": "https://github.com/kevinmccartney/we-the-party#readme"
+}
