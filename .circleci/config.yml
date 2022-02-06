@@ -23,7 +23,7 @@ workflows:
             projects/wtp_admin.* run_admin_workflow true
             projects/wtp_client.* run_client_workflow true
             projects/wtp_infra.* run_infra_workflow true
-          base-revision: $CIRCLE_BRANCH
+          base-revision: echo $CIRCLE_BRANCH
           # this is the path of the configuration we should trigger once
           # path filtering and pipeline parameter value updates are
           # complete. In this case, we are using the parent dynamic
