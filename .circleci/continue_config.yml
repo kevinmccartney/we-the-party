@@ -14,10 +14,14 @@ parameters:
     description: Determines if the destroy_feature_infra workflow should be run
 
 jobs:
-  hello_world: 
-    - run:
-        name: Hello world
-        command: echo "Hello, world"
+  hello_world:
+    working_directory: /tmp/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - run:
+          name: Hello world
+          command: echo "Hello, world"
   # plan-apply:
   #   working_directory: /tmp/project
   #   docker:
