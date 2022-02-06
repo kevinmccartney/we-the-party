@@ -13,7 +13,11 @@ parameters:
     type: boolean
     description: Determines if the destroy_feature_infra workflow should be run
 
-jobs:  
+jobs:
+  hello_world: 
+    - run:
+        name: Hello world
+        command: echo "Hello, world"
   # plan-apply:
   #   working_directory: /tmp/project
   #   docker:
@@ -103,10 +107,7 @@ workflows:
           - and:
               - equal: [true, run_admin_workflow]
     jobs:
-      - hello_world: 
-          - run:
-              name: Hello world
-              command: echo "Hello, world"
+      - hello_world
   wtp_client:
     when: 
         and:
@@ -115,10 +116,7 @@ workflows:
           - and:
               - equal: [true, run_client_workflow]
     jobs:
-      - hello_world: 
-          - run:
-              name: Hello world
-              command: echo "Hello, world"
+      - hello_world
   wtp_infra:
     when: 
         and:
@@ -127,10 +125,7 @@ workflows:
           - and:
               - equal: [true, run_infra_workflow]
     jobs:
-      - hello_world: 
-          - run:
-              name: Hello world
-              command: echo "Hello, world"
+      - hello_world
   # core_infra:
   #   when: 
   #       and:
