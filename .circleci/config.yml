@@ -116,42 +116,48 @@ workflows:
           - not: << pipeline.parameters.initialize_feature_infra >>
           - not: << pipeline.parameters.destroy_feature_infra >>
     jobs:
-      - hold-apply
+      - hold-apply:
+          type: approval
   feature_infra:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
           - not: << pipeline.parameters.destroy_feature_infra >>
     jobs:
-      - hold-apply
+      - hold-apply:
+          type: approval
   dev_infra:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
           - not: << pipeline.parameters.destroy_feature_infra >>
     jobs:
-      - hold-apply
+      - hold-apply:
+          type: approval
   prod_infra:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
           - not: << pipeline.parameters.destroy_feature_infra >>
     jobs:
-      - hold-apply
+      - hold-apply:
+          type: approval
   initialize_feature_infra:
     when: 
         and:
           - equal: [true, << pipeline.parameters.initialize_feature_infra >>]
           - not: << pipeline.parameters.destroy_feature_infra >>
     jobs:
-      - hold-apply
+      - hold-apply:
+          type: approval
   destroy_feature_infra:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
           - equal: [true, << pipeline.parameters.destroy_feature_infra >>]
     jobs:
-      - hold-apply
+      - hold-apply:
+          type: approval
   # plan_approve_apply:
   #   jobs:
   #     - plan-apply:
