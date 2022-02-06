@@ -31,11 +31,11 @@ jobs:
             ls -la
 
             if [ $tf_env = 'feature' ]; then
-              clean_env_name=${branch//\//-}
+              clean_env_name=${CIRCLE_BRANCH//\//-}
 
               cat > variables.tfvars \<<EOF
-            wtp_environment = '${clean_env_name}'
-            wtp_aws_region = 'us-east-1'
+            wtp_environment = "${clean_env_name}"
+            wtp_aws_region = "us-east-1"
             EOF
             fi
             
