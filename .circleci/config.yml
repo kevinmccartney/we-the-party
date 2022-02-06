@@ -73,48 +73,48 @@ jobs:
           paths:
             - .
 
-    apply:
-      parameters:
-        project:
-          type: string
-          description: Determines which project to plan
-      docker:
-        - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-      steps:
-        - attach_workspace:
-            at: .
-        - run:
-            name: 'echoing directory contents'
-            command: |
-              ls -la terraform/feature
-        - run:
-            name: terraform
-            command: |
-              if [ $CIRCLE_BRANCH = "master" ]; then
-              tf_env="prod";
-              elif [ $CIRCLE_BRANCH = 'develop' ]; then
-                tf_env="dev";
-              elif [[ $CIRCLE_BRANCH == feature/* ]]; then
-                tf_env="feature";
-              fi
+  apply:
+    parameters:
+      project:
+        type: string
+        description: Determines which project to plan
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: 'echoing directory contents'
+          command: |
+            ls -la terraform/feature
+      - run:
+          name: terraform
+          command: |
+            if [ $CIRCLE_BRANCH = "master" ]; then
+            tf_env="prod";
+            elif [ $CIRCLE_BRANCH = 'develop' ]; then
+              tf_env="dev";
+            elif [[ $CIRCLE_BRANCH == feature/* ]]; then
+              tf_env="feature";
+            fi
 
-              if [ '<< parameters.project >>' = 'wtp-infra' ]; then
-                tf_env="core";
-              fi
+            if [ '<< parameters.project >>' = 'wtp-infra' ]; then
+              tf_env="core";
+            fi
 
-              cd projects/<< parameters.project >>/terraform/${tf_env}
-              ls -la
+            cd projects/<< parameters.project >>/terraform/${tf_env}
+            ls -la
 
-              if [ $tf_env = 'feature' ]; then
-                clean_env_name=${CIRCLE_BRANCH//\//-}
+            if [ $tf_env = 'feature' ]; then
+              clean_env_name=${CIRCLE_BRANCH//\//-}
 
-                cat > variables.tfvars \<<EOF
-              wtp_environment = "${clean_env_name}"
-              wtp_aws_region = "us-east-1"
-              EOF
-              fi
+              cat > variables.tfvars \<<EOF
+            wtp_environment = "${clean_env_name}"
+            wtp_aws_region = "us-east-1"
+            EOF
+            fi
 
-              terraform apply -auto-approve tfapply
+            terraform apply -auto-approve tfapply
       
 
 workflows:
