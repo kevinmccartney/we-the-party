@@ -20,23 +20,29 @@ jobs:
           name: 'terraform apply'
           command: |
             if [ $CIRCLE_BRANCH = "master" ]; then
-              # echo "it's master"
               tf_env="prod";
             elif [ $CIRCLE_BRANCH = 'develop' ]; then
-              # echo "it's develop"
               tf_env="dev";
             elif [[ $CIRCLE_BRANCH == feature/* ]]; then
-              # echo "it's a feature"
               tf_env="feature";
             fi
 
             cd terraform/${tf_env}
             ls -la
+
+            if [ $tf_env = 'feature' ]; then
+              clean_env_name=${branch//\//-}
+
+              cat > variables.tfvars <<EOF
+            wtp_environment = '${clean_env_name}'
+            wtp_aws_region = 'us-east-1'
+            EOF
+            fi
             
-            # terraform init -input=false
-            # terraform plan -out tfapply -var-file variables.tfvars
-      - run: |
-          echo $tf_env
+            terraform init -input=false
+            terraform plan -out tfapply -var-file variables.tfvars
+
+            cat tfapply
       # - run:
       #     name: terraform init & plan
       #     command: |
