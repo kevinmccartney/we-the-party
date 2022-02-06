@@ -124,7 +124,7 @@ workflows:
           - not: << pipeline.parameters.initialize_feature_infra >>
           - not: << pipeline.parameters.destroy_feature_infra >>
           - and:
-              - matches: { pattern: "^feature\/.+$", value: << pipeline.git.branch >> }
+              - matches: { pattern: "^feature/.+$", value: << pipeline.git.branch >> }
     jobs:
       - hold-apply:
           type: approval
