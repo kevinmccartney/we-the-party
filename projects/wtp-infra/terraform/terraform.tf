@@ -1,4 +1,5 @@
 terraform {
+  # backend "s3" {}
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -7,12 +8,23 @@ terraform {
   }
 }
 
+# data "terraform_remote_state" "state" {
+#   backend = "s3"
+#   config = {
+#     bucket     = "wtp-infra-state"
+#     lock_table = "wtp-infra-state-locks"
+#     region     = var.wtp_aws_region
+#     key        = "terraform.tfstate"
+#   }
+# }
+
+
 provider "aws" {
   region = var.wtp_aws_region
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "wtp-web-state"
+  bucket = "wt-state"
   versioning {
     enabled = true
   }
