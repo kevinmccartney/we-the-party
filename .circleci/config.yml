@@ -41,7 +41,9 @@ jobs:
               tf_env="dev";
             elif [[ $CIRCLE_BRANCH == feature/* ]]; then
               tf_env="feature";
-            elif [ '<< parameters.project >>' = 'wtp-infra' ]; then
+            fi
+
+            if [ '<< parameters.project >>' = 'wtp-infra' ]; then
               tf_env="core";
             fi
 
