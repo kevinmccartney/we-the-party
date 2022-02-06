@@ -150,8 +150,12 @@ workflows:
           project: 'wtp-infra'
       - hold-apply:
           type: approval
+          requires:
+            - plan-apply
       - apply:
           project: 'wtp-infra'
+          requires:
+            - hold-apply
 
   # core_infra:
   #   when: 
