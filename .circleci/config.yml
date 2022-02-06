@@ -118,7 +118,7 @@ workflows:
     jobs:
       - hold-apply:
           type: approval
-  feature_infra:
+  feature:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
@@ -128,7 +128,7 @@ workflows:
     jobs:
       - hold-apply:
           type: approval
-  dev_infra:
+  dev:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
@@ -138,7 +138,7 @@ workflows:
     jobs:
       - hold-apply:
           type: approval
-  prod_infra:
+  prod:
     when: 
         and:
           - not: << pipeline.parameters.initialize_feature_infra >>
