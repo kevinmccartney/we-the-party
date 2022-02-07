@@ -87,7 +87,6 @@ jobs:
             fi
 
             cd projects/<< parameters.project >>/terraform/${tf_env}
-            ls -la
 
             if [ $tf_env = 'feature' ]; then
               clean_env_name=${CIRCLE_BRANCH//\//-}

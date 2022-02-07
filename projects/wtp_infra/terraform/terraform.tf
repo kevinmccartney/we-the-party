@@ -25,6 +25,14 @@ data "terraform_remote_state" "state" {
 
 provider "aws" {
   region = var.wtp_aws_region
+
+  default_tags {
+    tags = {
+      "project"     = "we-the-party",
+      "managed_by"  = "terraform"
+      "environment" = "infra"
+    }
+  }
 }
 
 resource "aws_s3_bucket" "terraform_state" {
@@ -39,11 +47,6 @@ resource "aws_s3_bucket" "terraform_state" {
       }
     }
   }
-
-  tags = {
-    "project" = "we-the-party",
-    "managed_by" = "terraform"
-  }
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
@@ -54,11 +57,6 @@ resource "aws_dynamodb_table" "terraform_locks" {
   attribute {
     name = "LockID"
     type = "S"
-  }
-
-  tags = {
-    "project" = "we-the-party",
-    "managed_by" = "terraform"
   }
 }
 

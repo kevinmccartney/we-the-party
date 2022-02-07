@@ -4,10 +4,6 @@ locals {
 
 resource "aws_route53_zone" "domain_routes" {
   name = "wethe.party"
-  tags = {
-    "project" = "we-the-party",
-    "managed_by" = "terraform"
-  }
 }
 
 resource "aws_acm_certificate" "default" {
@@ -20,11 +16,6 @@ resource "aws_acm_certificate" "default" {
 
   lifecycle {
     create_before_destroy = true
-  }
-
-  tags                      = {
-    "project" = "we-the-party",
-    "managed_by" = "terraform"
   }
 }
 
