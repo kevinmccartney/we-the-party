@@ -31,7 +31,7 @@ resource "aws_apigatewayv2_api" "services" {
 }
 
 resource "aws_apigatewayv2_route" "ping" {
-  api_id    = aws_apigatewayv2_api.example.id
+  api_id    = aws_apigatewayv2_api.services.id
   route_key = "GET /ping"
 
   target = "integrations/${aws_apigatewayv2_integration.ping.id}"
