@@ -74,8 +74,8 @@ module "cert" {
 module "services" {
   source = "./modules/services"
 
-  wtp_route_53_zone_id=module.cert.wtp_route_53_zone_id
-  wtp_cert_arn=module.cert.wtp_cert_arn
+  wtp_route_53_zone_id = module.cert.wtp_route_53_zone_id
+  wtp_cert_arn         = module.cert.wtp_cert_arn
 
   depends_on = [
     module.cert
