@@ -1,5 +1,5 @@
 locals {
-  wtp_sans = concat([for key, value in var.domain_names : "*.${value}" if key != "infra"], [for key, value in var.domain_names : value])
+  wtp_sans = concat([for key, value in var.domain_names : "*.${value}" if key != "infra"], [for key, value in var.domain_names : value if key != "apex"])
 }
 
 resource "aws_route53_zone" "domain_routes" {
