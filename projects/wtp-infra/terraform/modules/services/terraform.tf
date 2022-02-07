@@ -29,3 +29,56 @@ resource "aws_apigatewayv2_api" "services" {
     "managed_by" = "terraform"
   }
 }
+
+resource "aws_apigatewayv2_route" "ping" {
+  api_id    = aws_apigatewayv2_api.example.id
+  route_key = "GET /ping"
+
+  target = "integrations/${aws_apigatewayv2_integration.ping.id}"
+}
+
+resource "aws_apigatewayv2_integration" "ping" {
+  api_id           = aws_apigatewayv2_api.services.id
+  integration_type = "AWS"
+
+  connection_type           = "INTERNET"
+  content_handling_strategy = "CONVERT_TO_TEXT"
+  description               = "Simple ping endpoint, returns pong"
+  integration_method        = "GET"
+  integration_uri           = aws_lambda_function.ping.invoke_arn
+}
+
+resource "aws_lambda_function" "ping" {
+  function_name = "wtp-services_ping"
+  role          = aws_iam_role.ping_lambda_execution.arn
+}
+
+
+resource "aws_iam_role" "ping_lambda_execution" {
+  name = "wtp-ping-lambda-execution"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+
+
+# resource "aws_apigatewayv2_route" "initialize_feature" {
+#   api_id    = aws_apigatewayv2_api.example.id
+#   route_key = "POST /services/feature"
+
+#   target = "integrations/${aws_apigatewayv2_integration.example.id}"
+# }
