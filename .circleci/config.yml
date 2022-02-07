@@ -62,17 +62,6 @@ jobs:
             terraform init -input=false
             terraform plan -out tfapply -var-file variables.tfvars
 
-      - run:
-          command: pwd
-      
-      - run:
-          command: ls -la
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
   apply:
     parameters:
       project:
@@ -81,12 +70,6 @@ jobs:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: 'echoing directory contents'
-          command: |
-            ls -la terraform/feature
       - run:
           name: terraform
           command: |
