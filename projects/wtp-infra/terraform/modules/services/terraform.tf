@@ -9,11 +9,6 @@ resource "aws_route53_record" "services_gateway" {
     zone_id                = aws_apigatewayv2_domain_name.services.domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
-
-  tags = {
-    "project"    = "we-the-party",
-    "managed_by" = "terraform"
-  }
 }
 
 resource "aws_apigatewayv2_domain_name" "services" {
