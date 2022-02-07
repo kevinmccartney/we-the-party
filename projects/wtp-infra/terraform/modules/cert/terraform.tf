@@ -61,6 +61,6 @@ output "wtp_route_53_zone_id" {
 }
 
 output "cert_arn" {
-  value = aws_acm_certificate.arn
+  value = aws_acm_certificate.default.arn
   description = "ARN for the wtp SSL cert"
 }
