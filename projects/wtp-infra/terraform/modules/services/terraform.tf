@@ -64,7 +64,7 @@ resource "aws_api_gateway_integration" "ping_get" {
 
   # Transforms the incoming XML request to JSON
   request_templates = {
-    "application/json" = "pong"
+    "application/json" = "{\"statusCode\": 200, \"body\": \"pong\"}"
   }
 }
 
