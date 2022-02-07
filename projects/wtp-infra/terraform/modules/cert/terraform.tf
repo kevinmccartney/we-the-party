@@ -1,5 +1,5 @@
 locals {
-  wtp_sans = concat([for domain, key in var.domain_names : "*.${domain}" if key != "infra"], [for name in var.domain_names : domain if key != "infra"])
+  wtp_sans = concat([for key, value in var.domain_names : "*.${value}" if key != "infra"], [for key, value in var.domain_names : value if key != "infra"])
 }
 
 output "wtp_sans" {
