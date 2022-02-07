@@ -98,7 +98,7 @@ jobs:
             EOF
             fi
 
-            terraform apply -auto-approve tfapply
+            terraform apply -auto-approve
       
 
 workflows:
