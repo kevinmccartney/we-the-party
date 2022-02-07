@@ -62,7 +62,7 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
-module "web_certs" {
+module "cert" {
   source = "./modules/cert"
 
   domain_names = tomap({
@@ -71,4 +71,11 @@ module "web_certs" {
     "admin"  = "admin.wethe.party",
     "infra"  = "infra.wethe.party"
   })
+}
+
+module "services" {
+  source = "./modules/services"
+
+  wtp_route_53_zone_id=module.cert.wtp_route_53_zone_id
+  wtp_cert_arn=module.cert.wtp_cert_arn
 }
