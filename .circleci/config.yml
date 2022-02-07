@@ -98,6 +98,7 @@ jobs:
             EOF
             fi
 
+            terraform init -input=false
             terraform apply -auto-approve
       
 
