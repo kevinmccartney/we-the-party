@@ -48,7 +48,6 @@ jobs:
             fi
 
             cd projects/<< parameters.project >>/terraform/${tf_env}
-            ls -la
 
             if [ $tf_env = 'feature' ]; then
               clean_env_name=${CIRCLE_BRANCH//\//-}
@@ -87,7 +86,6 @@ jobs:
             fi
 
             cd projects/<< parameters.project >>/terraform/${tf_env}
-            ls -la
 
             if [ $tf_env = 'feature' ]; then
               clean_env_name=${CIRCLE_BRANCH//\//-}
@@ -97,9 +95,6 @@ jobs:
             wtp_aws_region = "us-east-1"
             EOF
             fi
-
-            pwd
-            ls -la ../../
 
             terraform init -input=false
             terraform apply -auto-approve
@@ -199,19 +194,3 @@ workflows:
     jobs:
       - hold-apply:
           type: approval
-  # plan_approve_apply:
-  #   jobs:
-  #     - plan-apply:
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-  #               - develop
-  #               - /feature\/.*/
-  #     - hold-apply:
-  #         type: approval
-  #         requires:
-  #           - plan-apply
-  #     - apply:
-  #         requires:
-  #           - hold-apply

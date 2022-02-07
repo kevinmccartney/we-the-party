@@ -25,6 +25,14 @@ data "terraform_remote_state" "state" {
 
 provider "aws" {
   region = var.wtp_aws_region
+
+  default_tags {
+    tags = {
+      "project"     = "we-the-party",
+      "managed_by"  = "terraform"
+      "environment" = "infra"
+    }
+  }
 }
 
 resource "aws_s3_bucket" "terraform_state" {
