@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "wtp-state"
-    key    = "infra-terraform.tfstate"
+    key    = "infra.tfstate"
     region = "us-east-1"
   }
   required_providers {
@@ -18,7 +18,7 @@ data "terraform_remote_state" "state" {
     bucket     = "wtp-state"
     dynamodb_table  = "wtp-infra-state-locks"
     region     = var.wtp_aws_region
-    key        = "infra-terraform.tfstate"
+    key        = "infra.tfstate"
   }
 }
 
