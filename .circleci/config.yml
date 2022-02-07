@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Hello world
           command: echo "Hello, world"
-  plan-apply:
+  terraform-plan:
     working_directory: /tmp/project
     parameters:
       project:
@@ -62,18 +62,7 @@ jobs:
             terraform init -input=false
             terraform plan -out tfapply
 
-      - run:
-          command: pwd
-      
-      - run:
-          command: ls -la
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
-  apply:
+  terraform-apply:
     parameters:
       project:
         type: string
@@ -81,12 +70,7 @@ jobs:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: 'echoing directory contents'
-          command: |
-            ls -la terraform/feature
+      - checkout
       - run:
           name: terraform
           command: |
@@ -114,7 +98,8 @@ jobs:
             EOF
             fi
 
-            terraform apply -auto-approve tfapply
+            terraform init -input=false
+            terraform apply -auto-approve
       
 
 workflows:
@@ -145,17 +130,16 @@ workflows:
           # - and:
           #     - equal: [true, run_infra_workflow]
     jobs:
-      - hello_world
-      - plan-apply:
+      - terraform-plan:
           project: 'wtp-infra'
-      - hold-apply:
+      - approve-terraform-apply:
           type: approval
           requires:
-            - plan-apply
-      - apply:
+            - terraform-plan
+      - terraform-apply:
           project: 'wtp-infra'
           requires:
-            - hold-apply
+            - approve-terraform-apply
 
   # core_infra:
   #   when: 

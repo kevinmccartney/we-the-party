@@ -39,14 +39,36 @@ resource "aws_s3_bucket" "terraform_state" {
       }
     }
   }
+
+  tags = {
+    "project" = "we-the-party",
+    "managed_by" = "terraform"
+  }
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "wtp-infra-state-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
+  
   attribute {
     name = "LockID"
     type = "S"
   }
+
+  tags = {
+    "project" = "we-the-party",
+    "managed_by" = "terraform"
+  }
+}
+
+module "web_certs" {
+  source = "./modules/cert"
+
+  domain_names = tomap({
+    "apex"   = "wethe.party",
+    "api"    = "api.wethe.party",
+    "admin"  = "admin.wethe.party",
+    "infra"  = "infra.wethe.party"
+  })
 }
