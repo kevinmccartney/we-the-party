@@ -41,10 +41,10 @@ resource "aws_apigatewayv2_integration" "ping" {
   api_id           = aws_apigatewayv2_api.services.id
   integration_type = "AWS_PROXY"
 
-  connection_type           = "INTERNET"
-  description               = "Simple ping endpoint, returns pong"
-  integration_method        = "GET"
-  integration_uri           = aws_lambda_function.ping.invoke_arn
+  connection_type    = "INTERNET"
+  description        = "Simple ping endpoint, returns pong"
+  integration_method = "POST"
+  integration_uri    = aws_lambda_function.ping.invoke_arn
 }
 
 resource "aws_lambda_function" "ping" {
