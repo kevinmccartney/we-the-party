@@ -42,7 +42,6 @@ resource "aws_apigatewayv2_integration" "ping" {
   integration_type = "AWS_PROXY"
 
   connection_type           = "INTERNET"
-  content_handling_strategy = "CONVERT_TO_TEXT"
   description               = "Simple ping endpoint, returns pong"
   integration_method        = "GET"
   integration_uri           = aws_lambda_function.ping.invoke_arn
