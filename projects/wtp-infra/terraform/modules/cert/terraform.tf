@@ -25,14 +25,21 @@ resource "aws_acm_certificate" "default" {
 }
 
 resource "aws_route53_record" "validation" {
-  count = length(keys(var.domain_names))
   depends_on = [aws_acm_certificate.default]
 
-  name    = trimprefix(aws_acm_certificate.default.domain_validation_options[count.index + 1].resource_record_name, "*.")
-  type    = aws_acm_certificate.default.domain_validation_options[count.index + 1].resource_record_type
+  for_each = {
+    for dvo in aws_acm_certificate.example.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
   zone_id = aws_route53_zone.domain_routes.zone_id
-  records = [aws_acm_certificate.default.domain_validation_options[count.index + 1].resource_record_value]
-  ttl     = "60"
   allow_overwrite = true
 }
 
