@@ -56,7 +56,7 @@ resource "aws_acm_certificate_validation" "default" {
 }
 
 output "wtp_route_53_zone_id" {
-  value = aws_route53_zone.zone_id
+  value = aws_route53_zone.domain_routes.zone_id
   description = "Id for the primary wtp Route 53 hosted zone"
 }
 
