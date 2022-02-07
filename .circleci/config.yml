@@ -98,7 +98,8 @@ jobs:
             EOF
             fi
 
-            ls -la ../../assets
+            pwd
+            ls -la ../../
 
             terraform init -input=false
             terraform apply -auto-approve
