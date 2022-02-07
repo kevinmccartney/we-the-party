@@ -39,7 +39,7 @@ resource "aws_apigatewayv2_route" "ping" {
 
 resource "aws_apigatewayv2_integration" "ping" {
   api_id           = aws_apigatewayv2_api.services.id
-  integration_type = "AWS"
+  integration_type = "AWS_PROXY"
 
   connection_type           = "INTERNET"
   content_handling_strategy = "CONVERT_TO_TEXT"
@@ -53,7 +53,7 @@ resource "aws_lambda_function" "ping" {
   role          = aws_iam_role.ping_lambda_execution.arn
   runtime       = "python3.9"
   filename      = "./assets/ping.zip"
-  handler       = "main.lambda_handler"
+  handler       = "ping.lambda_handler"
 }
 
 
