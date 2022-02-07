@@ -23,11 +23,6 @@ resource "aws_apigatewayv2_domain_name" "services" {
 resource "aws_apigatewayv2_api" "services" {
   name          = "wtp-services"
   protocol_type = "HTTP"
-
-  tags = {
-    "project"    = "we-the-party",
-    "managed_by" = "terraform"
-  }
 }
 
 resource "aws_apigatewayv2_stage" "default" {
