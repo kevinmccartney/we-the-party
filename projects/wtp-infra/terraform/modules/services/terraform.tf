@@ -20,7 +20,7 @@ resource "aws_apigatewayv2_domain_name" "services" {
   domain_name = "infra.wethe.party"
 
   domain_name_configuration {
-    certificate_arn = var.wtp_cert_arn.arn
+    certificate_arn = var.wtp_cert_arn
     endpoint_type   = "REGIONAL"
     security_policy = "TLS_1_2"
   }
