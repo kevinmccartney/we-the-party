@@ -2,7 +2,6 @@ resource "aws_route53_record" "services_gateway" {
   name    = aws_apigatewayv2_domain_name.services.domain_name
   zone_id = var.wtp_route_53_zone_id
   type    = "A"
-  ttl     = "300"
 
   alias {
     name                   = aws_apigatewayv2_domain_name.services.domain_name_configuration[0].target_domain_name
