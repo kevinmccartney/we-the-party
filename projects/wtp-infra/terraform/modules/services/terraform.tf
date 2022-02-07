@@ -37,11 +37,11 @@ resource "aws_apigatewayv2_stage" "default" {
 }
 
 resource "aws_api_gateway_account" "cloudwatch" {
-  cloudwatch_role_arn = aws_iam_role.cloudwatch.arn
+  cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch.arn
 }
 
 resource "aws_iam_role" "api_gateway_cloudwatch" {
-  name = "api_gateway_cloudwatch"
+  name = "wtp_api_gateway_cloudwatch"
 
   assume_role_policy = <<EOF
 {
@@ -61,7 +61,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "cloudwatch" {
-  name = "default"
+  name = "wtp_api_gateway_cloudwatch"
   role = aws_iam_role.api_gateway_cloudwatch.id
 
   policy = <<EOF
