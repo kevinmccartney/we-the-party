@@ -1,9 +1,9 @@
 variable "wtp_aws_region" {
-  type = string
+  type        = string
   description = "The AWS region in which our serverless resources reside"
 }
 
 variable "wtp_environment" {
-  type = string
+  type        = string
   description = "Which environment we are working on"
 }

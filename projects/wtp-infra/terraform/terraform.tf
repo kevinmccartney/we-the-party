@@ -15,10 +15,10 @@ terraform {
 data "terraform_remote_state" "state" {
   backend = "s3"
   config = {
-    bucket     = "wtp-state"
-    dynamodb_table  = "wtp-infra-state-locks"
-    region     = var.wtp_aws_region
-    key        = "infra.tfstate"
+    bucket         = "wtp-state"
+    dynamodb_table = "wtp-infra-state-locks"
+    region         = var.wtp_aws_region
+    key            = "infra.tfstate"
   }
 }
 
@@ -41,7 +41,7 @@ resource "aws_s3_bucket" "terraform_state" {
   }
 
   tags = {
-    "project" = "we-the-party",
+    "project"    = "we-the-party",
     "managed_by" = "terraform"
   }
 }
@@ -50,14 +50,14 @@ resource "aws_dynamodb_table" "terraform_locks" {
   name         = "wtp-infra-state-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
-  
+
   attribute {
     name = "LockID"
     type = "S"
   }
 
   tags = {
-    "project" = "we-the-party",
+    "project"    = "we-the-party",
     "managed_by" = "terraform"
   }
 }
@@ -66,18 +66,18 @@ module "cert" {
   source = "./modules/cert"
 
   domain_names = tomap({
-    "apex"   = "wethe.party",
-    "api"    = "api.wethe.party",
-    "admin"  = "admin.wethe.party",
-    "infra"  = "infra.wethe.party"
+    "apex"  = "wethe.party",
+    "api"   = "api.wethe.party",
+    "admin" = "admin.wethe.party",
+    "infra" = "infra.wethe.party"
   })
 }
 
 module "services" {
   source = "./modules/services"
 
-  wtp_route_53_zone_id=module.cert.wtp_route_53_zone_id
-  wtp_cert_arn=module.cert.wtp_cert_arn
+  wtp_route_53_zone_id = module.cert.wtp_route_53_zone_id
+  wtp_cert_arn         = module.cert.wtp_cert_arn
 
   depends_on = [
     module.cert

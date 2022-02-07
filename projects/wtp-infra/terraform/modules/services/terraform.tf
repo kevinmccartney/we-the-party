@@ -10,8 +10,8 @@ resource "aws_route53_record" "services_gateway" {
     evaluate_target_health = false
   }
 
-  tags                      = {
-    "project" = "we-the-party",
+  tags = {
+    "project"    = "we-the-party",
     "managed_by" = "terraform"
   }
 }
@@ -30,8 +30,8 @@ resource "aws_apigatewayv2_api" "services" {
   name          = "wtp-services"
   protocol_type = "HTTP"
 
-  tags                      = {
-    "project" = "we-the-party",
+  tags = {
+    "project"    = "we-the-party",
     "managed_by" = "terraform"
   }
 }
