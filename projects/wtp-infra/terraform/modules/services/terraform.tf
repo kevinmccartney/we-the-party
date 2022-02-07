@@ -63,11 +63,11 @@ resource "aws_api_gateway_method_response" "ping_200" {
     "application/json" = "Empty"
   }
 
-  # response_parameters = {
-  #   "method.response.header.Access-Control-Allow-Headers" = true
-  #   "method.response.header.Access-Control-Allow-Methods" = true
-  #   "method.response.header.Access-Control-Allow-Origin"  = true
-  # }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
 }
 
 resource "aws_api_gateway_integration" "ping_get" {
@@ -86,6 +86,7 @@ resource "aws_api_gateway_integration" "ping_get" {
     "application/json" = <<TEMPLATE
 {
   "statusCode": 200
+  "body": "pong"
 }
 TEMPLATE
   }
@@ -102,11 +103,11 @@ resource "aws_api_gateway_integration_response" "ping_200" {
     "application/json" = ""
   }
 
-  # response_parameters = {
-  #   "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-  #   "method.response.header.Access-Control-Allow-Methods" = "'GET'"
-  #   "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-  # }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+    "method.response.header.Access-Control-Allow-Methods" = "GET,OPTIONS"
+    "method.response.header.Access-Control-Allow-Origin"  = "*"
+  }
 }
 
 resource "aws_api_gateway_stage" "v1" {
