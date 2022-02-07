@@ -34,14 +34,14 @@ resource "aws_route53_record" "validation" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id = aws_route53_zone.domain_routes.zone_id
+  zone_id         = aws_route53_zone.domain_routes.zone_id
   allow_overwrite = true
 }
 
 resource "aws_acm_certificate_validation" "default" {
   count = length(aws_route53_record.validation)
 
-  certificate_arn         = aws_acm_certificate.default.arn
-  
-  validation_record_fqdns = [for validation in aws_route53_record.validation: validation.fqdn]
+  certificate_arn = aws_acm_certificate.default.arn
+
+  validation_record_fqdns = [for validation in aws_route53_record.validation : validation.fqdn]
 }

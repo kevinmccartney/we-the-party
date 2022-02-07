@@ -15,10 +15,10 @@ terraform {
 data "terraform_remote_state" "state" {
   backend = "s3"
   config = {
-    bucket     = "wtp-state"
-    dynamodb_table  = "wtp-infra-state-locks"
-    region     = var.wtp_aws_region
-    key        = "infra.tfstate"
+    bucket         = "wtp-state"
+    dynamodb_table = "wtp-infra-state-locks"
+    region         = var.wtp_aws_region
+    key            = "infra.tfstate"
   }
 }
 
@@ -53,7 +53,7 @@ resource "aws_dynamodb_table" "terraform_locks" {
   name         = "wtp-infra-state-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
-  
+
   attribute {
     name = "LockID"
     type = "S"
@@ -64,9 +64,9 @@ module "web_certs" {
   source = "./modules/cert"
 
   domain_names = tomap({
-    "apex"   = "wethe.party",
-    "api"    = "api.wethe.party",
-    "admin"  = "admin.wethe.party",
-    "infra"  = "infra.wethe.party"
+    "apex"  = "wethe.party",
+    "api"   = "api.wethe.party",
+    "admin" = "admin.wethe.party",
+    "infra" = "infra.wethe.party"
   })
 }
