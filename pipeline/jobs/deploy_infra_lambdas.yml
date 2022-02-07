@@ -1,0 +1,26 @@
+working_directory: /tmp/project
+docker:
+  - image: cimg/base:2021.04
+steps:
+  - checkout
+  - aws-cli/install
+  - run:
+      name: Package Lambdas
+      command: |
+        cd projects/wtp_infra
+
+        mkdir dist
+
+        zip -rj dist/ping.zip src/ping
+        zip -rj dist/webhook_handler.zip src/webhook_handler
+  - aws-s3/sync:
+      from: projects/wtp_infra/dist
+      to: "s3://wtp-infra-lambdas"
+      arguments: --content-type text/plain
+  - run:
+      name: Update Lambda Code
+      command: |
+        aws lambda update-function-code \
+          --function-name  wtp_services_ping \
+          --s3-bucket wtp-infra-lambdas \
+          --s3-key ping.zip
