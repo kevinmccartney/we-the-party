@@ -1,11 +1,18 @@
 resource "aws_api_gateway_rest_api" "services" {
   name = "wtp-service"
+  # disable_execute_api_endpoint = true
 }
 
 resource "aws_api_gateway_domain_name" "services" {
   certificate_arn = var.wtp_cert_arn
   domain_name     = "infra.wethe.party"
   security_policy = "TLS_1_2"
+}
+
+resource "aws_api_gateway_base_path_mapping" "example" {
+  api_id      = aws_api_gateway_rest_api.services.id
+  stage_name  = aws_api_gateway_stage.v1.stage_name
+  domain_name = aws_api_gateway_domain_name.services.domain_name
 }
 
 resource "aws_route53_record" "services" {
