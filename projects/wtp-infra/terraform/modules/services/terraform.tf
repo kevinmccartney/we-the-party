@@ -32,8 +32,50 @@ resource "aws_api_gateway_deployment" "example" {
   }
 }
 
-resource "aws_api_gateway_resource" "resources" {
+resource "aws_api_gateway_resource" "ping" {
   rest_api_id = aws_api_gateway_rest_api.services.id
   parent_id   = aws_api_gateway_rest_api.services.root_resource_id
-  path_part   = "services"
+  path_part   = "ping"
 }
+
+resource "aws_api_gateway_method" "ping_get" {
+  rest_api_id   = aws_api_gateway_rest_api.services.id
+  resource_id   = aws_api_gateway_resource.ping.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "ping_get" {
+  rest_api_id          = aws_api_gateway_rest_api.services.id
+  resource_id          = aws_api_gateway_resource.ping.id
+  http_method          = aws_api_gateway_method.ping_get.http_method
+  type                 = "MOCK"
+
+  request_parameters = {
+    "integration.request.header.X-Authorization" = "'static'"
+  }
+
+  # Transforms the incoming XML request to JSON
+  request_templates = {
+    "application/json" = "pong"
+  }
+}
+
+resource "aws_api_gateway_method_response" "response_200" {
+  rest_api_id = aws_api_gateway_rest_api.services.id
+  resource_id = aws_api_gateway_resource.ping.id
+  http_method = aws_api_gateway_method.ping_get.http_method
+  status_code = "200"
+}
+
+# resource "aws_api_gateway_resource" "resources" {
+#   rest_api_id = aws_api_gateway_rest_api.services.id
+#   parent_id   = aws_api_gateway_rest_api.services.root_resource_id
+#   path_part   = "services"
+# }
+
+# resource "aws_api_gateway_resource" "resources" {
+#   rest_api_id = aws_api_gateway_rest_api.services.id
+#   parent_id   = aws_api_gateway_resource.resources.id
+#   path_part   = "features"
+# }
