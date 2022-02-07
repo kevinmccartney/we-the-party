@@ -51,8 +51,9 @@ resource "aws_apigatewayv2_integration" "ping" {
 resource "aws_lambda_function" "ping" {
   function_name = "wtp-services_ping"
   role          = aws_iam_role.ping_lambda_execution.arn
-  runtime = "python3.9"
-  filename = "../../assets/ping.zip"
+  runtime       = "python3.9"
+  filename      = "../../assets/ping.zip"
+  handler       = "main.lambda_handler"
 }
 
 
