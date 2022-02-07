@@ -145,7 +145,6 @@ workflows:
           # - and:
           #     - equal: [true, run_infra_workflow]
     jobs:
-      - hello_world
       - plan-apply:
           project: 'wtp-infra'
       - hold-apply:
