@@ -58,13 +58,18 @@ resource "aws_api_gateway_integration" "ping_get" {
   http_method = aws_api_gateway_method.ping_get.http_method
   type        = "MOCK"
 
-  request_parameters = {
-    "integration.request.header.X-Authorization" = "'static'"
-  }
+  # request_parameters = {
+  #   "integration.request.header.X-Authorization" = "'static'"
+  # }
 
   # Transforms the incoming XML request to JSON
   request_templates = {
-    "application/json" = "{\"statusCode\": 200, \"body\": \"pong\"}"
+    # "application/json" = "{\"statusCode\": 200, \"body\": \"pong\"}"
+    "application/json" = <<TEMPLATE
+{
+  "statusCode": 200
+}
+TEMPLATE
   }
 }
 
