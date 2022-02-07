@@ -33,7 +33,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'terraform apply'
+          name: 'terraform plan'
           command: |
             if [ $CIRCLE_BRANCH = "master" ]; then
               tf_env="prod";
@@ -71,7 +71,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: terraform
+          name: 'terraform apply'
           command: |
             if [ $CIRCLE_BRANCH = "master" ]; then
             tf_env="prod";

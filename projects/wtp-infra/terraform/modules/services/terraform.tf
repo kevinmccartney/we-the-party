@@ -31,3 +31,9 @@ resource "aws_api_gateway_deployment" "example" {
     create_before_destroy = true
   }
 }
+
+resource "aws_api_gateway_resource" "resources" {
+  rest_api_id = aws_api_gateway_rest_api.services.id
+  parent_id   = aws_api_gateway_rest_api.services.root_resource_id
+  path_part   = "services"
+}
