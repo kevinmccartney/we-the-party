@@ -118,7 +118,7 @@ jobs:
             zip -r dist/webhook-handler.zip src/webhook-handler
       - aws-s3/sync:
           arguments: '--dryrun'
-          from: bucket/dist
+          from: dist
           to: 's3://wtp-infra-lambdas'
 
 workflows:
