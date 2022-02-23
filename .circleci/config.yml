@@ -109,12 +109,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Hello world
-          command: echo "Hello, world"
-      - run:
           name: Zip Lambdas
           command: |
             cd projects/wtp-infra
+            ls -la src
             zip -r dist/ping.zip src/ping
             zip -r dist/webhook-handler.zip src/webhook-handler
       - aws-s3/sync:
@@ -160,7 +158,9 @@ workflows:
           project: 'wtp-infra'
           requires:
             - approve-terraform-apply
-      - build_infra_lambdas
+      - build_infra_lambdas:
+          requires:
+            - terraform-apply
 
   # core_infra:
   #   when: 
