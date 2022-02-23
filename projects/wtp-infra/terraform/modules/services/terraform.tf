@@ -85,22 +85,22 @@ TEMPLATE
   }
 }
 
-# resource "aws_api_gateway_integration_response" "ping_200" {
-#   rest_api_id = aws_api_gateway_rest_api.services.id
-#   resource_id = aws_api_gateway_resource.ping.id
-#   http_method = "GET"
-#   status_code = 200
+resource "aws_api_gateway_integration_response" "ping_200" {
+  rest_api_id = aws_api_gateway_rest_api.services.id
+  resource_id = aws_api_gateway_resource.ping.id
+  http_method = "GET"
+  status_code = 200
 
-#   response_templates = {
-#     "application/json" = "s"
-#   }
-# }
+  response_templates = {
+    "application/json" = "s"
+  }
+}
 
-# resource "aws_api_gateway_stage" "v1" {
-#   deployment_id = aws_api_gateway_deployment.services.id
-#   rest_api_id   = aws_api_gateway_rest_api.services.id
-#   stage_name    = "v1"
-# }
+resource "aws_api_gateway_stage" "v1" {
+  deployment_id = aws_api_gateway_deployment.services.id
+  rest_api_id   = aws_api_gateway_rest_api.services.id
+  stage_name    = "v1"
+}
 
 resource "aws_iam_role" "lambda_execution" {
   name = "iam_for_lambda"
