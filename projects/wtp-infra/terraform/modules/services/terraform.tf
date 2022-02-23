@@ -116,11 +116,6 @@ resource "aws_iam_role" "lambda_execution" {
       },
       "Effect": "Allow",
       "Sid": ""
-    },
-    {
-      "Action": "sts:AssumeRole",
-      "Effect": "Allow",
-      "Sid": ""
     }
   ]
 }
