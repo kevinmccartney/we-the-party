@@ -126,13 +126,14 @@ data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
   name = "AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_iam_role_policy_attachment" "test-attach" {
+resource "aws_iam_role_policy_attachment" "aws-lambda-basic-execution-role" {
   role       = aws_iam_role.lambda_execution.name
   policy_arn = data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
-resource "aws_lambda_function" "test_lambda" {
-  filename      = "assets/ping.zip"
+resource "aws_lambda_function" "ping" {
+  s3_bucket = "wtp-infra-lambdas"
+  s3_key = "ping.zip"
   function_name = "wtp_services_ping"
   role          = aws_iam_role.lambda_execution.arn
   handler       = "ping.lambda_handler"
@@ -140,4 +141,18 @@ resource "aws_lambda_function" "test_lambda" {
   source_code_hash = filebase64sha256("assets/ping.zip")
 
   runtime = "python3.9"
+}
+
+resource "aws_s3_bucket" "infra_lambdas" {
+  bucket = "wtp-infra-lambdas"
+  versioning {
+    enabled = true
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
