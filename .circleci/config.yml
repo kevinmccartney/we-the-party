@@ -14,6 +14,9 @@ jobs:
     steps:
       - checkout # checkout code
       - run: # run a command
+          name: List working dir contents
+          command: ls -la
+      - run: # run a command
           name: Hello world
           command: echo "Hello world"
       - continuation/continue:
