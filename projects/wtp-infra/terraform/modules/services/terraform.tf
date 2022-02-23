@@ -132,13 +132,13 @@ resource "aws_iam_role_policy_attachment" "aws-lambda-basic-execution-role" {
 }
 
 resource "aws_lambda_function" "ping" {
-  s3_bucket = "wtp-infra-lambdas"
-  s3_key = "ping.zip"
+  s3_bucket     = "wtp-infra-lambdas"
+  s3_key        = "ping.zip"
   function_name = "wtp_services_ping"
   role          = aws_iam_role.lambda_execution.arn
   handler       = "ping.lambda_handler"
 
-  source_code_hash = filebase64sha256("assets/ping.zip")
+  source_code_hash = filebase64sha256("ping.zip")
 
   runtime = "python3.9"
 }
