@@ -120,7 +120,7 @@ jobs:
             ls -la dist
       - aws-s3/sync:
           arguments: '--dryrun'
-          from: dist
+          from: projects/wtp-infra/dist
           to: 's3://wtp-infra-lambdas'
 
 workflows:
