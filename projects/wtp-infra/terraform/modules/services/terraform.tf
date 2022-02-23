@@ -116,10 +116,24 @@ resource "aws_iam_role" "lambda_execution" {
       },
       "Effect": "Allow",
       "Sid": ""
+    },
+    {
+      "Action": "sts:AssumeRole",
+      "Effect": "Allow",
+      "Sid": ""
     }
   ]
 }
 EOF
+}
+
+data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
+  name = "AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "test-attach" {
+  role       = aws_iam_role.lambda_execution.name
+  policy_arn = data.aws_iam_policy.AWSLambdaBasicExecutionRole
 }
 
 resource "aws_lambda_function" "test_lambda" {
