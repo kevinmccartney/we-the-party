@@ -85,19 +85,50 @@ TEMPLATE
   }
 }
 
-resource "aws_api_gateway_integration_response" "ping_200" {
-  rest_api_id = aws_api_gateway_rest_api.services.id
-  resource_id = aws_api_gateway_resource.ping.id
-  http_method = "GET"
-  status_code = "200"
+# resource "aws_api_gateway_integration_response" "ping_200" {
+#   rest_api_id = aws_api_gateway_rest_api.services.id
+#   resource_id = aws_api_gateway_resource.ping.id
+#   http_method = "GET"
+#   status_code = 200
 
-  response_templates = {
-    "application/json" = ""
-  }
+#   response_templates = {
+#     "application/json" = "s"
+#   }
+# }
+
+# resource "aws_api_gateway_stage" "v1" {
+#   deployment_id = aws_api_gateway_deployment.services.id
+#   rest_api_id   = aws_api_gateway_rest_api.services.id
+#   stage_name    = "v1"
+# }
+
+resource "aws_iam_role" "lambda_execution" {
+  name = "iam_for_lambda"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
 }
 
-resource "aws_api_gateway_stage" "v1" {
-  deployment_id = aws_api_gateway_deployment.services.id
-  rest_api_id   = aws_api_gateway_rest_api.services.id
-  stage_name    = "v1"
+resource "aws_lambda_function" "test_lambda" {
+  filename      = "assets/ping.zip"
+  function_name = "wtp_services_ping"
+  role          = aws_iam_role.lambda_execution.arn
+  handler       = "ping.lambda_handler"
+
+  source_code_hash = filebase64sha256("assets/ping.zip")
+
+  runtime = "python3.9"
 }
