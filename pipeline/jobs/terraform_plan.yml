@@ -8,7 +8,7 @@ docker:
 steps:
   - checkout
   - run:
-      name: 'terraform plan'
+      name: "terraform plan"
       command: |
         if [ $CIRCLE_BRANCH = "master" ]; then
           tf_env="prod";
@@ -18,7 +18,7 @@ steps:
           tf_env="feature";
         fi
 
-        if [ '<< parameters.project >>' = 'wtp-infra' ]; then
+        if [ '<< parameters.project >>' = 'wtp_infra' ]; then
           tf_env="";
         fi
 
@@ -34,6 +34,6 @@ steps:
         wtp_aws_region = "us-east-1"
         EOF
         fi
-        
+
         terraform init -input=false
         terraform plan -out tfapply

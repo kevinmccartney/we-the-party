@@ -7,17 +7,17 @@ docker:
 steps:
   - checkout
   - run:
-      name: 'terraform apply'
+      name: "terraform apply"
       command: |
         if [ $CIRCLE_BRANCH = "master" ]; then
-        tf_env="prod";
+          tf_env="prod";
         elif [ $CIRCLE_BRANCH = 'develop' ]; then
           tf_env="dev";
         elif [[ $CIRCLE_BRANCH == feature/* ]]; then
           tf_env="feature";
         fi
 
-        if [ '<< parameters.project >>' = 'wtp-infra' ]; then
+        if [ '<< parameters.project >>' = 'wtp_infra' ]; then
           tf_env="";
         fi
 
