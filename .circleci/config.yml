@@ -28,6 +28,12 @@ jobs:
           command: |
             cd pipeline
             python generate_config.py
+      - run:
+          name: List circleci dir contents
+          command: ls -la .circleci
+      - run:
+          name: Cat generated conf
+          command: cat .circleci/generated_config.yml
   setup:
     executor: continuation/default
     steps:

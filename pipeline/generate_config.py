@@ -81,13 +81,6 @@ with open(circle_ci_base_dir, 'r') as file:
       hello_world = os.path.join(os.getcwd(), 'jobs/hello_world.yml')
       hello_world_job = load_job(hello_world)
 
-      # doc['workflows']["wtp_infra"]["jobs"]["terraform_plan"] = terraform_plan_job
-
-      # print(type(doc["workflows"]["wtp_infra"]["jobs"]))
-
-
-      # doc['workflows']["wtp_infra"]["terraform"] = approve_terraform_plan_job
-
       doc["jobs"] = list()
 
       doc["jobs"].append(hello_world)
@@ -97,5 +90,10 @@ with open(circle_ci_base_dir, 'r') as file:
         
     sort_file = yaml.dump(doc)
     print(sort_file)
+
+    circle_ci_generated_config = os.path.join(os.getcwd(), '../circleci/generated_config.yml')
+    
+    with open(circle_ci_generated_config, 'w') as write_file:
+      documents = yaml.dump(sort_file, write_file)
 
 # conditionally apply workflows with params
