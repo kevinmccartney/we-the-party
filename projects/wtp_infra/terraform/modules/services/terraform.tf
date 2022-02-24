@@ -66,6 +66,22 @@ resource "aws_api_gateway_stage" "v1" {
   stage_name    = "v1"
 }
 
+resource "aws_api_gateway_method_settings" "all" {
+  rest_api_id = aws_api_gateway_rest_api.services.id
+  stage_name  = aws_api_gateway_stage.v1.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+  }
+}
+
+resource "aws_cloudwatch_log_group" "example" {
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.services.id}/${aws_api_gateway_stage.v1.stage_name}"
+  retention_in_days = 7
+}
+
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
