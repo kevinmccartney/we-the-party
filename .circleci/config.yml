@@ -21,6 +21,9 @@ jobs:
           name: List working dir contents
           command: ls -la
       - run:
+          name: Install Python deps
+          command: pip install -r requirements.txt
+      - run:
           name: Generate config
           command: |
             cd pipeline
