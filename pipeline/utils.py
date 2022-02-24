@@ -88,6 +88,7 @@ def build_lambda_deployment_workflow(project: str, base: Dict) -> None:
     ensure_orbs_present(base)
 
     base["orbs"]["aws-s3"] = "circleci/aws-s3@3.0"
+    base["orbs"]["aws-cli"] = "circleci/aws-cli@2.1.0"
 
     base["jobs"]["deploy_infra_lambdas"] = deploy_infra_lambdas_job
 
