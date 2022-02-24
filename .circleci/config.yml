@@ -49,7 +49,7 @@ jobs:
           name: Hello world
           command: echo "Hello world"
       - attach_workspace:
-          at: /tmp/workspace  
+          at: ./  
       - run:
           name: List workspace dir contents
           command: ls -la .circleci
