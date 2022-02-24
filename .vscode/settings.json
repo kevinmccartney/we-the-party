@@ -2,7 +2,11 @@
   "cSpell.words": [
     "circleci",
     "deps",
+    "elif",
+    "hashicorp",
     "kevinmccartney",
+    "tfapply",
+    "tfvars",
     "wethe"
   ]
 }

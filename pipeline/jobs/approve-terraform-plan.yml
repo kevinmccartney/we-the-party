@@ -1,4 +1,3 @@
-approve-terraform-plan:
-  type: approval
-  requires:
-    - terraform-plan
+type: approval
+requires:
+  - terraform-plan

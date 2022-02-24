@@ -1,26 +1,13 @@
-from typing import List
 import yaml
 import os
 from git import Repo
 from pathlib import Path
 
-class Dumper(yaml.Dumper):
-    def increase_indent(self, flow=False, *args, **kwargs):
-        return super().increase_indent(flow=flow, indentless=False)
+from utils import get_changed_projects, load_template, Dumper
+from constants import PROJECTS_SRC, PROJECTS_TERRAFORM
 
-PROJECTS_TERRAFORM = {
-  'admin': 'projects/wtp-admin/terraform',
-  'api': 'projects/wtp-api/terraform',
-  'client': 'projects/wtp-client/terraform',
-  'infra': 'projects/wtp-infra/terraform'
-}
-
-PROJECTS_SRC = {
-  'admin': 'projects/wtp-admin/src',
-  'api': 'projects/wtp-api/src',
-  'client': 'projects/wtp-client/src',
-  'infra': 'projects/wtp-infra/src'
-}
+# https://stackoverflow.com/a/30682604
+yaml.Dumper.ignore_aliases = lambda *args : True
 
 git_dir = os.path.join(os.getcwd(), '../.git')
 repo = Repo(git_dir) 
@@ -29,76 +16,48 @@ repo = Repo(git_dir)
 # diff_list = diff.split('\n')
 diff_list = ["projects/wtp-infra/terraform/terraform.tf"]
 
-# print(diff_list)
+base = load_template('jobs/base.yml')
 
-def contains_project(project: str, change: str):
-  if project not in change:
-    return False
-  else:
-    return True
+changed_projects = get_changed_projects([PROJECTS_SRC, PROJECTS_TERRAFORM], diff_list)
 
-def has_changes(project: str, project_changes: List[str]) -> bool:
-  changes = list(filter(lambda x: contains_project(project, x), project_changes))
-  # print(project_changes)
+if 'infra_tf' in changed_projects:
+  terraform_plan = os.path.join(os.getcwd(), 'jobs/terraform_plan.yml')
+  terraform_plan_job = load_template(terraform_plan)
+  approve_terraform_plan = os.path.join(os.getcwd(), 'jobs/approve-terraform-plan.yml')
+  approve_terraform_plan_job = load_template(approve_terraform_plan)
+  approve_terraform_plan = os.path.join(os.getcwd(), 'jobs/approve-terraform-plan.yml')
+  approve_terraform_plan_job = load_template(approve_terraform_plan)
+  terraform_apply = os.path.join(os.getcwd(), 'jobs/terraform-apply.yml')
+  terraform_apply_job = load_template(terraform_apply)
 
-  return len(changes) > 0
+  base["jobs"] = dict()
+  base["jobs"]["terraform_plan"] = terraform_plan_job
+  # base["jobs"]["approve-terraform-apply"] = approve_terraform_plan_job
+  base["jobs"]["terraform_apply"] = terraform_apply_job
+  base["workflows"]["wtp_infra"] = dict()
+  base["workflows"]["wtp_infra"]["jobs"] = list()
+  base["workflows"]["wtp_infra"]["jobs"].append({
+    "terraform_plan": {
+      "project": "wtp_infra"
+    }
+  })
+  base["workflows"]["wtp_infra"]["jobs"].append({
+    "approve_terraform_plan": approve_terraform_plan_job
+  })
+  base["workflows"]["wtp_infra"]["jobs"].append({
+    "terraform_apply": {
+      "project": "wtp_infra",
+      "requires": "approve_terraform_plan"
+    }
+  })
 
-def load_job(path: str) -> dict:
-  with open(path, 'r') as job_file:
-    job = yaml.load(job_file, Loader=yaml.FullLoader)
-    return job
-  
+circle_ci_generated_config = os.path.join(os.getcwd(), '../.circleci/generated_config.yml')
 
-has_admin_terraform_changes = has_changes(PROJECTS_TERRAFORM['admin'], diff_list)
-has_api_terraform_changes = has_changes(PROJECTS_TERRAFORM['api'], diff_list)
-has_client_terraform_changes = has_changes(PROJECTS_TERRAFORM['client'], diff_list)
-has_infra_terraform_changes = has_changes(PROJECTS_TERRAFORM['infra'], diff_list)
-has_admin_src_changes = has_changes(PROJECTS_SRC['admin'], diff_list)
-has_api_src_changes = has_changes(PROJECTS_SRC['api'], diff_list)
-has_client_src_changes = has_changes(PROJECTS_SRC['client'], diff_list)
-has_infra_src_changes = has_changes(PROJECTS_SRC['infra'], diff_list)
+with open(circle_ci_generated_config, 'w') as write_file:
+  documents = yaml.dump(base, write_file, Dumper=Dumper)
 
-
-# print(has_admin_terraform_changes)
-# print(has_api_terraform_changes)
-# print(has_client_terraform_changes)
-# print(has_client_terraform_changes)
-# print(has_admin_src_changes)
-# print(has_api_src_changes)
-# print(has_client_src_changes)
-# print(has_client_src_changes)
-
-
-# load circleci templates
-circle_ci_base_dir = os.path.join(os.getcwd(), 'jobs/base.yml')
-
-with open(circle_ci_base_dir, 'r') as file:
-    doc = yaml.load(file, Loader=yaml.FullLoader)
-
-    # print(type(doc))
-    # print(doc)
-
-    if has_infra_terraform_changes:
-      # terraform_plan = os.path.join(os.getcwd(), 'jobs/terraform_plan.yml')
-      # terraform_plan_job = load_job(terraform_plan)
-      # approve_terraform_plan = os.path.join(os.getcwd(), 'jobs/approve-terraform-plan.yml')
-      # approve_terraform_plan_job = load_job(approve_terraform_plan)
-      hello_world = os.path.join(os.getcwd(), 'jobs/hello_world.yml')
-      hello_world_job = load_job(hello_world)
-
-      doc["jobs"] = dict()
-
-      doc["jobs"]["hello_world"] = hello_world_job
-      doc["workflows"]["wtp_infra"] = dict()
-      doc["workflows"]["wtp_infra"]["jobs"] = list()
-      doc["workflows"]["wtp_infra"]["jobs"].append('hello_world')
-
-    circle_ci_generated_config = os.path.join(os.getcwd(), '../.circleci/generated_config.yml')
-    
-    with open(circle_ci_generated_config, 'w') as write_file:
-      documents = yaml.dump(doc, write_file, Dumper=Dumper)
-
-    contents = Path(circle_ci_generated_config).read_text()
-    print(contents)
+# https://stackoverflow.com/a/39591068
+contents = Path(circle_ci_generated_config).read_text()
+print(contents)
 
 # conditionally apply workflows with params
