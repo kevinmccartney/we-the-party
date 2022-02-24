@@ -43,8 +43,12 @@ jobs:
             terraform apply -auto-approve\n"
   deploy_infra_lambdas:
     working_directory: /tmp/project
+    parameters:
+      project:
+        type: string
+        description: Determines which project to plan
     docker:
-      - image: cimg/base:2021.04
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
       - run:

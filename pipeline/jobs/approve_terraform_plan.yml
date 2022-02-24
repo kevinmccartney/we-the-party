@@ -1,0 +1,3 @@
+type: approval
+requires:
+  - terraform_plan

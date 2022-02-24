@@ -9,7 +9,27 @@ orbs:
 
 # our defined job, and its steps
 jobs:
-  setup:
+  generate_config:
+    docker:
+      - image: cimg/python:3.10.1 
+    steps:
+      - checkout # checkout code
+      - run:
+          name: Install Python deps
+          command: pip install -r requirements.txt
+      - run:
+          name: Generate config
+          command: |
+            cd pipeline
+            python generate_config.py
+      - run:
+          name: Cat generated conf
+          command: cat .circleci/generated_config.yml
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - .circleci
+  apply_config:
     executor: continuation/default
     steps:
       - checkout # checkout code
@@ -50,6 +70,9 @@ jobs:
 
 # our single workflow, that triggers the setup job defined above
 workflows:
-  setup:
+  apply_and_generate_config:
     jobs:
-      - setup
+      - generate_config
+      - apply_config:
+          requires:
+              - generate_config

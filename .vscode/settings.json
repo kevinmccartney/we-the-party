@@ -1,6 +1,14 @@
 {
   "cSpell.words": [
+    "circleci",
+    "deps",
+    "elif",
+    "hashicorp",
     "kevinmccartney",
+    "tfapply",
+    "tfvars",
     "wethe"
-  ]
+  ],
+  "python.formatting.provider": "black",
+  "editor.formatOnSave": true
 }
