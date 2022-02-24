@@ -3,52 +3,39 @@ import os
 from git import Repo
 from pathlib import Path
 
-from utils import get_changed_projects, load_template, Dumper
-from constants import PROJECTS_SRC, PROJECTS_TERRAFORM
+from utils import get_changed_projects, load_template, Dumper, build_terraform_workflow
+from constants import PROJECTS
 
-# https://stackoverflow.com/a/30682604
-yaml.Dumper.ignore_aliases = lambda *args : True
-
-git_dir = os.path.join(os.getcwd(), '../.git')
-repo = Repo(git_dir) 
+git_dir = os.path.join(os.getcwd(), "../.git")
+repo = Repo(git_dir)
 # TODO: uncomment this when we're ready to use live git changes
 # diff: str = repo.git.diff('HEAD~1..HEAD', name_only=True)
 # diff_list = diff.split('\n')
-diff_list = ["projects/wtp-infra/terraform/terraform.tf"]
+diff_list = [
+    "projects/wtp_infra/terraform/terraform.tf",
+    "projects/wtp_infra/src/ping/ping.py",
+]
 
-base = load_template('jobs/base.yml')
+base = load_template("jobs/base.yml")
 
-changed_projects = get_changed_projects([PROJECTS_SRC, PROJECTS_TERRAFORM], diff_list)
+changed_projects = get_changed_projects(PROJECTS, diff_list)
 
-if 'infra_tf' in changed_projects:
-  terraform_plan_job = load_template('jobs/terraform_plan.yml')
-  approve_terraform_plan_job = load_template('jobs/approve-terraform-plan.yml')
-  terraform_apply_job = load_template('jobs/terraform-apply.yml')
+for project in changed_projects.items():
+    (project_name, change_status) = project
 
-  base["jobs"] = dict()
-  base["jobs"]["terraform_plan"] = terraform_plan_job
-  base["jobs"]["terraform_apply"] = terraform_apply_job
-  base["workflows"]["wtp_infra"] = dict()
-  base["workflows"]["wtp_infra"]["jobs"] = list()
-  base["workflows"]["wtp_infra"]["jobs"].append({
-    "terraform_plan": {
-      "project": "wtp-infra"
-    }
-  })
-  base["workflows"]["wtp_infra"]["jobs"].append({
-    "approve_terraform_plan": approve_terraform_plan_job
-  })
-  base["workflows"]["wtp_infra"]["jobs"].append({
-    "terraform_apply": {
-      "project": "wtp-infra",
-      "requires": ["approve_terraform_plan"]
-    }
-  })
+    if change_status["terraform"] == True:
+        print(project_name, "has terraform changes")
+        build_terraform_workflow(project_name, base)
 
-circle_ci_generated_config = os.path.join(os.getcwd(), '../.circleci/generated_config.yml')
+    if change_status["src"] == True:
+        print(project_name, "has src changes")
 
-with open(circle_ci_generated_config, 'w') as write_file:
-  documents = yaml.dump(base, write_file, Dumper=Dumper)
+circle_ci_generated_config = os.path.join(
+    os.getcwd(), "../.circleci/generated_config.yml"
+)
+
+with open(circle_ci_generated_config, "w") as write_file:
+    documents = yaml.dump(base, write_file, Dumper=Dumper, sort_keys=False)
 
 # https://stackoverflow.com/a/39591068
 contents = Path(circle_ci_generated_config).read_text()

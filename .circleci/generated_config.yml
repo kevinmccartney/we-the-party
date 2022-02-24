@@ -1,0 +1,56 @@
+version: 2.1
+jobs:
+  terraform_plan:
+    working_directory: /tmp/project
+    parameters:
+      project:
+        type: string
+        description: Determines which project to plan
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform plan
+          command: "if [ $CIRCLE_BRANCH = \"master\" ]; then\n  tf_env=\"prod\";\n\
+            elif [ $CIRCLE_BRANCH = 'develop' ]; then\n  tf_env=\"dev\";\nelif [[\
+            \ $CIRCLE_BRANCH == feature/* ]]; then\n  tf_env=\"feature\";\nfi\n\n\
+            if [ '<< parameters.project >>' = 'wtp-infra' ]; then\n  tf_env=\"\";\n\
+            fi\n\necho $tf_env\n\ncd projects/<< parameters.project >>/terraform/${tf_env}\n\
+            \nif [ $tf_env = 'feature' ]; then\n  clean_env_name=${CIRCLE_BRANCH//\\\
+            //-}\n\n  cat > variables.tfvars \\<<EOF\nwtp_environment = \"${clean_env_name}\"\
+            \nwtp_aws_region = \"us-east-1\"\nEOF\nfi\n\nterraform init -input=false\n\
+            terraform plan -out tfapply"
+  terraform_apply:
+    parameters:
+      project:
+        type: string
+        description: Determines which project to plan
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform apply
+          command: "if [ $CIRCLE_BRANCH = \"master\" ]; then\ntf_env=\"prod\";\nelif\
+            \ [ $CIRCLE_BRANCH = 'develop' ]; then\n  tf_env=\"dev\";\nelif [[ $CIRCLE_BRANCH\
+            \ == feature/* ]]; then\n  tf_env=\"feature\";\nfi\n\nif [ '<< parameters.project\
+            \ >>' = 'wtp-infra' ]; then\n  tf_env=\"\";\nfi\n\ncd projects/<< parameters.project\
+            \ >>/terraform/${tf_env}\n\nif [ $tf_env = 'feature' ]; then\n  clean_env_name=${CIRCLE_BRANCH//\\\
+            //-}\n\n  cat > variables.tfvars \\<<EOF\nwtp_environment = \"${clean_env_name}\"\
+            \nwtp_aws_region = \"us-east-1\"\nEOF\nfi\n\nterraform init -input=false\n\
+            terraform apply -auto-approve"
+workflows:
+  version: 2
+  wtp_infra:
+    jobs:
+      - terraform_plan:
+          project: wtp_infra
+      - approve_terraform_plan:
+          type: approval
+          requires:
+            - terraform_plan
+      - terraform_apply:
+          project: wtp_infra
+          requires:
+            - approve_terraform_plan
