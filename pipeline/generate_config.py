@@ -47,7 +47,7 @@ if 'infra_tf' in changed_projects:
   base["workflows"]["wtp_infra"]["jobs"].append({
     "terraform_apply": {
       "project": "wtp_infra",
-      "requires": "approve_terraform_plan"
+      "requires": ["approve_terraform_plan"]
     }
   })
 
