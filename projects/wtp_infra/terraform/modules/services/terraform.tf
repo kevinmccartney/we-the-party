@@ -6,7 +6,6 @@ resource "aws_api_gateway_rest_api" "services" {
 resource "aws_api_gateway_domain_name" "services" {
   certificate_arn = var.wtp_cert_arn
   domain_name     = "infra.wethe.party"
-  security_policy = "TLS_1_2"
 }
 
 resource "aws_api_gateway_base_path_mapping" "example" {
@@ -53,9 +52,9 @@ resource "aws_api_gateway_method" "ping_get" {
 }
 
 resource "aws_api_gateway_integration" "ping_get" {
-  rest_api_id = aws_api_gateway_rest_api.services.id
-  resource_id = aws_api_gateway_resource.ping.id
-  http_method = aws_api_gateway_method.ping_get.http_method
+  rest_api_id             = aws_api_gateway_rest_api.services.id
+  resource_id             = aws_api_gateway_resource.ping.id
+  http_method             = aws_api_gateway_method.ping_get.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = sensitive(aws_lambda_function.ping.invoke_arn)
