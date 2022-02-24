@@ -64,11 +64,15 @@ def build_terraform_workflow(project: str, base: Dict) -> None:
     approve_terraform_plan_job = load_template("jobs/approve_terraform_plan.yml")
     terraform_apply_job = load_template("jobs/terraform_apply.yml")
 
-    base["jobs"] = dict()
+    if "jobs" not in base:
+        base["jobs"] = dict()
+
     base["jobs"]["terraform_plan"] = terraform_plan_job
     base["jobs"]["terraform_apply"] = terraform_apply_job
-    base["workflows"][project] = dict()
-    base["workflows"][project]["jobs"] = list()
+
+    if "workflows" not in base:
+        base["workflows"][project] = dict()
+
     base["workflows"][project]["jobs"].append({"terraform_plan": {"project": project}})
     base["workflows"][project]["jobs"].append(
         {"approve_terraform_plan": approve_terraform_plan_job}

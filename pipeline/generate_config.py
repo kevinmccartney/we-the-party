@@ -29,6 +29,18 @@ for project in changed_projects.items():
     if change_status["src"] == True:
         print(project_name, "has src changes")
 
+        deploy_infra_lambdas_job = load_template("jobs/deploy_infra_lambdas.yml")
+
+        if "jobs" not in base:
+            base["jobs"] = dict()
+        base["jobs"]["deploy_infra_lambdas"] = deploy_infra_lambdas_job
+
+        if "workflows" not in base:
+            base["workflows"][project] = dict()
+
+        base["workflows"][project]["jobs"] = list()
+        base["workflows"][project]["jobs"].append("deploy_infra_lambdas")
+
 circle_ci_generated_config = os.path.join(
     os.getcwd(), "../.circleci/generated_config.yml"
 )

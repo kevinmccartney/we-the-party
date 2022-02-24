@@ -1,0 +1,20 @@
+working_directory: /tmp/project
+docker:
+  - image: cimg/base:2021.04
+steps:
+  - checkout
+  - run:
+      name: Package Lambdas
+      command: |
+        cd projects/wtp-infra
+        mkdir dist
+        ls -la src
+        zip -r dist/ping.zip src/ping
+        zip -r dist/webhook-handler.zip src/webhook-handler
+        openssl dgst -sha256 -binary dist/ping.zip | openssl enc -base64 > dist/ping.zip.sha256
+        openssl dgst -sha256 -binary dist/webhook_handler.zip | openssl enc -base64 > dist/webhook_handler.zip.sha256
+        ls -la 
+        ls -la dist
+  - aws-s3/sync:
+      from: projects/wtp-infra/dist
+      to: "s3://wtp-infra-lambdas"
