@@ -1,10 +1,7 @@
-# https://support.circleci.com/hc/en-us/articles/360050351292-How-to-trigger-a-workflow-via-CircleCI-API-v2
-
 version: 2.1
 
 jobs:
   hello_world:
-    working_directory: /tmp/project
     docker:
       - image: cimg/base:2021.04
     steps:

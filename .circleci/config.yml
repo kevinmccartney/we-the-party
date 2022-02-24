@@ -19,6 +19,9 @@ jobs:
       - run: # run a command
           name: Hello world
           command: echo "Hello world"
+      - run:
+          name: Python Version Check
+          command: python --version
       - continuation/continue:
           configuration_path: .circleci/generated_config.yml # use newly generated config to continue
 
