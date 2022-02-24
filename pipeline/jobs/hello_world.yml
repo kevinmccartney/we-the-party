@@ -1,8 +1,7 @@
-hello_world:
-  working_directory: /tmp/project
-  docker:
-    - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-  steps:
-    - run:
-        name: Hello world
-        command: echo "Hello, world"
+working_directory: /tmp/project
+docker:
+  - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+steps:
+  - run:
+      name: Hello world
+      command: echo "Hello, world"

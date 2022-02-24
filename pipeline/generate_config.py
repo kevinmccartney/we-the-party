@@ -81,9 +81,9 @@ with open(circle_ci_base_dir, 'r') as file:
       hello_world = os.path.join(os.getcwd(), 'jobs/hello_world.yml')
       hello_world_job = load_job(hello_world)
 
-      doc["jobs"] = list()
+      doc["jobs"] = dict()
 
-      doc["jobs"].append(hello_world_job)
+      doc["jobs"]["hello_world"] = hello_world_job
       doc["workflows"]["wtp_infra"] = dict()
       doc["workflows"]["wtp_infra"]["jobs"] = list()
       doc["workflows"]["wtp_infra"]["jobs"].append('hello_world')
