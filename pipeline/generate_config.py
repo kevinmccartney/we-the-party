@@ -37,7 +37,7 @@ if 'infra_tf' in changed_projects:
   base["workflows"]["wtp_infra"]["jobs"] = list()
   base["workflows"]["wtp_infra"]["jobs"].append({
     "terraform_plan": {
-      "project": "wtp_infra"
+      "project": "wtp-infra"
     }
   })
   base["workflows"]["wtp_infra"]["jobs"].append({
@@ -45,7 +45,7 @@ if 'infra_tf' in changed_projects:
   })
   base["workflows"]["wtp_infra"]["jobs"].append({
     "terraform_apply": {
-      "project": "wtp_infra",
+      "project": "wtp-infra",
       "requires": ["approve_terraform_plan"]
     }
   })
