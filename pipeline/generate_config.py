@@ -2,6 +2,11 @@ from typing import List
 import yaml
 import os
 from git import Repo
+from pathlib import Path
+
+class Dumper(yaml.Dumper):
+    def increase_indent(self, flow=False, *args, **kwargs):
+        return super().increase_indent(flow=flow, indentless=False)
 
 PROJECTS_TERRAFORM = {
   'admin': 'projects/wtp-admin/terraform',
@@ -24,7 +29,7 @@ repo = Repo(git_dir)
 # diff_list = diff.split('\n')
 diff_list = ["projects/wtp-infra/terraform/terraform.tf"]
 
-print(diff_list)
+# print(diff_list)
 
 def contains_project(project: str, change: str):
   if project not in change:
@@ -87,14 +92,13 @@ with open(circle_ci_base_dir, 'r') as file:
       doc["workflows"]["wtp_infra"] = dict()
       doc["workflows"]["wtp_infra"]["jobs"] = list()
       doc["workflows"]["wtp_infra"]["jobs"].append('hello_world')
-      print(doc)
-        
-    sort_file = yaml.dump(doc)
-    print(sort_file)
 
     circle_ci_generated_config = os.path.join(os.getcwd(), '../.circleci/generated_config.yml')
     
     with open(circle_ci_generated_config, 'w') as write_file:
-      documents = yaml.dump(doc, write_file)
+      documents = yaml.dump(doc, write_file, Dumper=Dumper)
+
+    contents = Path(circle_ci_generated_config).read_text()
+    print(contents)
 
 # conditionally apply workflows with params
