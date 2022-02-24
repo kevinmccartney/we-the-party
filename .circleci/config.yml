@@ -9,6 +9,13 @@ orbs:
 
 # our defined job, and its steps
 jobs:
+  generate_config:
+    docker:
+      - image: cimg/python:3.10.1 
+    steps:
+       - run:
+          name: Python Version Check
+          command: python --version
   setup:
     executor: continuation/default
     steps:
@@ -19,9 +26,7 @@ jobs:
       - run: # run a command
           name: Hello world
           command: echo "Hello world"
-      - run:
-          name: Python Version Check
-          command: python --version
+     
       - continuation/continue:
           configuration_path: .circleci/generated_config.yml # use newly generated config to continue
 
@@ -29,4 +34,5 @@ jobs:
 workflows:
   setup:
     jobs:
+      - generate_config
       - setup
