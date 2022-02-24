@@ -32,7 +32,6 @@ if 'infra_tf' in changed_projects:
 
   base["jobs"] = dict()
   base["jobs"]["terraform_plan"] = terraform_plan_job
-  # base["jobs"]["approve-terraform-apply"] = approve_terraform_plan_job
   base["jobs"]["terraform_apply"] = terraform_apply_job
   base["workflows"]["wtp_infra"] = dict()
   base["workflows"]["wtp_infra"]["jobs"] = list()
