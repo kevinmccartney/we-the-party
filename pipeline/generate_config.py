@@ -83,10 +83,10 @@ with open(circle_ci_base_dir, 'r') as file:
 
       doc["jobs"] = list()
 
-      doc["jobs"].append(hello_world)
+      doc["jobs"].append(hello_world_job)
       doc["workflows"]["wtp_infra"] = dict()
       doc["workflows"]["wtp_infra"]["jobs"] = list()
-      doc["workflows"]["wtp_infra"]["jobs"].append(hello_world_job)
+      doc["workflows"]["wtp_infra"]["jobs"].append('hello_world')
       print(doc)
         
     sort_file = yaml.dump(doc)
