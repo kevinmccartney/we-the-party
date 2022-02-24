@@ -52,54 +52,29 @@ resource "aws_api_gateway_method" "ping_get" {
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_method_response" "ping_200" {
-  rest_api_id = aws_api_gateway_rest_api.services.id
-  resource_id = aws_api_gateway_resource.ping.id
-  http_method = "GET"
-  status_code = 200
-
-  response_models = {
-    "application/json" = "Empty"
-  }
-}
-
 resource "aws_api_gateway_integration" "ping_get" {
   rest_api_id = aws_api_gateway_rest_api.services.id
   resource_id = aws_api_gateway_resource.ping.id
   http_method = aws_api_gateway_method.ping_get.http_method
-  type        = "MOCK"
-
-  # request_parameters = {
-  #   "integration.request.header.X-Authorization" = "'static'"
-  # }
-
-  # Transforms the incoming XML request to JSON
-  request_templates = {
-    # "application/json" = "{\"statusCode\": 200, \"body\": \"pong\"}"
-    "application/json" = <<TEMPLATE
-{
-  "statusCode": 200
-  "body": "pong"
-}
-TEMPLATE
-  }
-}
-
-resource "aws_api_gateway_integration_response" "ping_200" {
-  rest_api_id = aws_api_gateway_rest_api.services.id
-  resource_id = aws_api_gateway_resource.ping.id
-  http_method = "GET"
-  status_code = 200
-
-  response_templates = {
-    "application/json" = "s"
-  }
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = sensitive(aws_lambda_function.ping.invoke_arn)
 }
 
 resource "aws_api_gateway_stage" "v1" {
   deployment_id = aws_api_gateway_deployment.services.id
   rest_api_id   = aws_api_gateway_rest_api.services.id
   stage_name    = "v1"
+}
+
+resource "aws_lambda_permission" "apigw_lambda" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.ping.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
+  source_arn = "arn:aws:execute-api:${var.wtp_aws_region}:${var.wtp_aws_account_id}:${aws_api_gateway_rest_api.services.id}/*/${aws_api_gateway_method.ping_get.http_method}${aws_api_gateway_resource.ping.path}"
 }
 
 resource "aws_iam_role" "lambda_execution" {
