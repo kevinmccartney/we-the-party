@@ -8,9 +8,8 @@ steps:
       command: |
         cd projects/wtp_infra
         mkdir dist
-        ls -la src
-        zip -r dist/ping.zip src/ping
-        zip -r dist/webhook_handler.zip src/webhook_handler
+        zip -rj dist/ping.zip src/ping
+        zip -rj dist/webhook_handler.zip src/webhook_handler
         openssl dgst -sha256 -binary dist/ping.zip | openssl enc -base64 > dist/ping.zip.sha256
         openssl dgst -sha256 -binary dist/webhook_handler.zip | openssl enc -base64 > dist/webhook_handler.zip.sha256
         ls -la 
