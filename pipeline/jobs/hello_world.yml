@@ -5,3 +5,6 @@ steps:
   - run:
       name: Hello world
       command: echo "Hello, world"
+  - run:
+      name: Hello world Again
+      command: echo "Hello, world again"
