@@ -15,12 +15,6 @@ jobs:
     steps:
       - checkout # checkout code
       - run:
-          name: Python Version Check
-          command: python --version
-      - run:
-          name: List working dir contents
-          command: ls -la
-      - run:
           name: Install Python deps
           command: pip install -r requirements.txt
       - run:
@@ -29,25 +23,16 @@ jobs:
             cd pipeline
             python generate_config.py
       - run:
-          name: List circleci dir contents
-          command: ls -la .circleci
-      - run:
           name: Cat generated conf
           command: cat .circleci/generated_config.yml
       - persist_to_workspace:
           root: ./
           paths:
             - .circleci
-  setup:
+  apply_config:
     executor: continuation/default
     steps:
       - checkout # checkout code
-      - run: # run a command
-          name: List working dir contents
-          command: ls -la
-      - run: # run a command
-          name: Hello world
-          command: echo "Hello world"
       - attach_workspace:
           at: ./  
       - run:
@@ -58,9 +43,9 @@ jobs:
 
 # our single workflow, that triggers the setup job defined above
 workflows:
-  setup:
+  apply_and_generate_config:
     jobs:
       - generate_config
-      - setup:
+      - apply_config:
           requires:
               - generate_config
