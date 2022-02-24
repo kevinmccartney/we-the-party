@@ -20,6 +20,11 @@ jobs:
       - run:
           name: List working dir contents
           command: ls -la
+      - run:
+          name: Generate config
+          command: |
+            cd pipeline
+            python generate_config.py
   setup:
     executor: continuation/default
     steps:
