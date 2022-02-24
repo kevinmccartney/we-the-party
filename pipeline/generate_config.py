@@ -91,7 +91,7 @@ with open(circle_ci_base_dir, 'r') as file:
     sort_file = yaml.dump(doc)
     print(sort_file)
 
-    circle_ci_generated_config = os.path.join(os.getcwd(), '../circleci/generated_config.yml')
+    circle_ci_generated_config = os.path.join(os.getcwd(), '../.circleci/generated_config.yml')
     
     with open(circle_ci_generated_config, 'w') as write_file:
       documents = yaml.dump(sort_file, write_file)
