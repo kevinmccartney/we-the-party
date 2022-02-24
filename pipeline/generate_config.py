@@ -21,14 +21,9 @@ base = load_template('jobs/base.yml')
 changed_projects = get_changed_projects([PROJECTS_SRC, PROJECTS_TERRAFORM], diff_list)
 
 if 'infra_tf' in changed_projects:
-  terraform_plan = os.path.join(os.getcwd(), 'jobs/terraform_plan.yml')
-  terraform_plan_job = load_template(terraform_plan)
-  approve_terraform_plan = os.path.join(os.getcwd(), 'jobs/approve-terraform-plan.yml')
-  approve_terraform_plan_job = load_template(approve_terraform_plan)
-  approve_terraform_plan = os.path.join(os.getcwd(), 'jobs/approve-terraform-plan.yml')
-  approve_terraform_plan_job = load_template(approve_terraform_plan)
-  terraform_apply = os.path.join(os.getcwd(), 'jobs/terraform-apply.yml')
-  terraform_apply_job = load_template(terraform_apply)
+  terraform_plan_job = load_template('jobs/terraform_plan.yml')
+  approve_terraform_plan_job = load_template('jobs/approve-terraform-plan.yml')
+  terraform_apply_job = load_template('jobs/terraform-apply.yml')
 
   base["jobs"] = dict()
   base["jobs"]["terraform_plan"] = terraform_plan_job
