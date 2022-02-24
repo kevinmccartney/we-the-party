@@ -13,9 +13,13 @@ jobs:
     docker:
       - image: cimg/python:3.10.1 
     steps:
-       - run:
+      - checkout # checkout code
+      - run:
           name: Python Version Check
           command: python --version
+      - run:
+          name: List working dir contents
+          command: ls -la
   setup:
     executor: continuation/default
     steps:
@@ -35,4 +39,6 @@ workflows:
   setup:
     jobs:
       - generate_config
-      - setup
+      - setup:
+          requires:
+              - generate_config
