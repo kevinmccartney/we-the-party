@@ -6,7 +6,7 @@ steps:
   - run:
       name: Package Lambdas
       command: |
-        cd projects/wtp-infra
+        cd projects/wtp_infra
         mkdir dist
         ls -la src
         zip -r dist/ping.zip src/ping
@@ -16,5 +16,5 @@ steps:
         ls -la 
         ls -la dist
   - aws-s3/sync:
-      from: projects/wtp-infra/dist
+      from: projects/wtp_infra/dist
       to: "s3://wtp-infra-lambdas"
