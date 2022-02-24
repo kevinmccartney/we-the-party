@@ -35,7 +35,7 @@ jobs:
           name: Cat generated conf
           command: cat .circleci/generated_config.yml
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ./
           paths:
             - /.circleci
   setup:
@@ -52,9 +52,9 @@ jobs:
           at: /tmp/workspace  
       - run:
           name: List workspace dir contents
-          command: ls -la /tmp/workspace/.circleci
+          command: ls -la /.circleci
       - continuation/continue:
-          configuration_path: /tmp/workspace/.circleci/generated_config.yml # use newly generated config to continue
+          configuration_path: .circleci/generated_config.yml # use newly generated config to continue
 
 # our single workflow, that triggers the setup job defined above
 workflows:
