@@ -18,7 +18,7 @@ steps:
       to: "s3://wtp-infra-lambdas"
       arguments: --content-type text/plain
   - run:
-      name: Upload Lambda Source
+      name: Update Lambda Code
       command: |
         aws lambda update-function-code \
           --function-name  wtp_services_ping \
