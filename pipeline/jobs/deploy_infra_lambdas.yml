@@ -18,3 +18,4 @@ steps:
   - aws-s3/sync:
       from: projects/wtp_infra/dist
       to: "s3://wtp-infra-lambdas"
+      arguments: --content-type text/plain
