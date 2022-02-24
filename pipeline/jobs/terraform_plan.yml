@@ -22,6 +22,8 @@ steps:
           tf_env="";
         fi
 
+        echo $tf_env
+
         cd projects/<< parameters.project >>/terraform/${tf_env}
 
         if [ $tf_env = 'feature' ]; then
