@@ -3,7 +3,13 @@ import os
 from git import Repo
 from pathlib import Path
 
-from utils import get_changed_projects, load_template, Dumper, build_terraform_workflow
+from utils import (
+    get_changed_projects,
+    load_template,
+    Dumper,
+    build_terraform_workflow,
+    build_lambda_deployment_workflow,
+)
 from constants import PROJECTS
 
 git_dir = os.path.join(os.getcwd(), "../.git")
@@ -28,18 +34,8 @@ for project in changed_projects.items():
 
     if change_status["src"] == True:
         print(project_name, "has src changes")
+        build_lambda_deployment_workflow(project_name, base)
 
-        deploy_infra_lambdas_job = load_template("jobs/deploy_infra_lambdas.yml")
-
-        if "jobs" not in base:
-            base["jobs"] = dict()
-        base["jobs"]["deploy_infra_lambdas"] = deploy_infra_lambdas_job
-
-        if "workflows" not in base:
-            base["workflows"][project] = dict()
-
-        base["workflows"][project]["jobs"] = list()
-        base["workflows"][project]["jobs"].append("deploy_infra_lambdas")
 
 circle_ci_generated_config = os.path.join(
     os.getcwd(), "../.circleci/generated_config.yml"

@@ -43,11 +43,8 @@ def get_changed_projects(projects: Dict, changes: List[str]) -> Dict:
 
     for project_name, project in projects.items():
         for key, value in project.items():
-            print(value)
             if has_changes(value, changes):
                 changed_projects[project_name][key] = True
-
-    print(changed_projects)
 
     return changed_projects
 
@@ -64,14 +61,10 @@ def build_terraform_workflow(project: str, base: Dict) -> None:
     approve_terraform_plan_job = load_template("jobs/approve_terraform_plan.yml")
     terraform_apply_job = load_template("jobs/terraform_apply.yml")
 
-    if "jobs" not in base:
-        base["jobs"] = dict()
+    ensure_jobs_project_workflows_present(project, base)
 
     base["jobs"]["terraform_plan"] = terraform_plan_job
     base["jobs"]["terraform_apply"] = terraform_apply_job
-
-    if "workflows" not in base:
-        base["workflows"][project] = dict()
 
     base["workflows"][project]["jobs"].append({"terraform_plan": {"project": project}})
     base["workflows"][project]["jobs"].append(
@@ -85,3 +78,34 @@ def build_terraform_workflow(project: str, base: Dict) -> None:
             }
         }
     )
+
+
+def build_lambda_deployment_workflow(project: str, base: Dict) -> None:
+    deploy_infra_lambdas_job = load_template("jobs/deploy_infra_lambdas.yml")
+    has_terraform_changes = False
+
+    ensure_jobs_project_workflows_present(project, base)
+
+    base["jobs"]["deploy_infra_lambdas"] = deploy_infra_lambdas_job
+
+    for job in base["workflows"][project]["jobs"]:
+        if "terraform_apply" in job:
+            has_terraform_changes = True
+
+    if has_terraform_changes:
+        base["workflows"][project]["jobs"].append(
+            {"deploy_infra_lambdas": {"requires": ["terraform_apply"]}}
+        )
+    else:
+        base["workflows"][project]["jobs"].append("deploy_infra_lambdas")
+
+
+def ensure_jobs_project_workflows_present(project: str, base: Dict):
+    if base["jobs"] == None:
+        base["jobs"] = dict()
+
+    if project not in base["workflows"]:
+        base["workflows"][project] = dict()
+
+    if "jobs" not in base["workflows"][project]:
+        base["workflows"][project]["jobs"] = list()
