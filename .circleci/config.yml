@@ -37,7 +37,7 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - /.circleci
+            - .circleci
   setup:
     executor: continuation/default
     steps:
@@ -52,7 +52,7 @@ jobs:
           at: /tmp/workspace  
       - run:
           name: List workspace dir contents
-          command: ls -la /.circleci
+          command: ls -la .circleci
       - continuation/continue:
           configuration_path: .circleci/generated_config.yml # use newly generated config to continue
 
