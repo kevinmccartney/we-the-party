@@ -76,6 +76,8 @@ module "services" {
 
   wtp_route_53_zone_id = module.cert.wtp_route_53_zone_id
   wtp_cert_arn         = module.cert.cert_arn
+  wtp_aws_region       = var.wtp_aws_region
+  wtp_aws_account_id   = var.wtp_aws_account_id
 
   depends_on = [
     module.cert

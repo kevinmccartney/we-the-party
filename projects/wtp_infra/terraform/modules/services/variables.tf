@@ -7,3 +7,14 @@ variable "wtp_cert_arn" {
   type        = string
   description = "ARN for the wtp SSL cert"
 }
+
+variable "wtp_aws_region" {
+  type        = string
+  description = "AWS region for the API gateway"
+}
+
+variable "wtp_aws_account_id" {
+  type        = string
+  description = "The AWS account in which our serverless resources reside"
+  sensitive   = true
+}
