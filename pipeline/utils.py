@@ -85,6 +85,9 @@ def build_lambda_deployment_workflow(project: str, base: Dict) -> None:
     has_terraform_changes = False
 
     ensure_jobs_project_workflows_present(project, base)
+    # ensure_orbs_present(base)
+
+    # base["orbs"]["aws-s3"] = "circleci/aws-s3@3.0"
 
     base["jobs"]["deploy_infra_lambdas"] = deploy_infra_lambdas_job
 
@@ -98,6 +101,11 @@ def build_lambda_deployment_workflow(project: str, base: Dict) -> None:
         )
     else:
         base["workflows"][project]["jobs"].append("deploy_infra_lambdas")
+
+
+def ensure_orbs_present(base: Dict):
+    if "orbs" not in base:
+        base["orbs"] = dict()
 
 
 def ensure_jobs_project_workflows_present(project: str, base: Dict):

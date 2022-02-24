@@ -33,7 +33,6 @@ for project in changed_projects.items():
         build_terraform_workflow(project_name, base)
 
     if change_status["src"] == True:
-        print(project_name, "has src changes")
         build_lambda_deployment_workflow(project_name, base)
 
 

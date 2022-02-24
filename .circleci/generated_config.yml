@@ -41,6 +41,22 @@ jobs:
             \n  cat > variables.tfvars \\<<EOF\nwtp_environment = \"${clean_env_name}\"\
             \nwtp_aws_region = \"us-east-1\"\nEOF\nfi\n\nterraform init -input=false\n\
             terraform apply -auto-approve\n"
+  deploy_infra_lambdas:
+    working_directory: /tmp/project
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - checkout
+      - run:
+          name: Package Lambdas
+          command: "cd projects/wtp-infra\nmkdir dist\nls -la src\nzip -r dist/ping.zip\
+            \ src/ping\nzip -r dist/webhook-handler.zip src/webhook-handler\nopenssl\
+            \ dgst -sha256 -binary dist/ping.zip | openssl enc -base64 > dist/ping.zip.sha256\n\
+            openssl dgst -sha256 -binary dist/webhook_handler.zip | openssl enc -base64\
+            \ > dist/webhook_handler.zip.sha256\nls -la \nls -la dist\n"
+      - aws-s3/sync:
+          from: projects/wtp-infra/dist
+          to: s3://wtp-infra-lambdas
 workflows:
   version: 2
   wtp_infra:
@@ -55,3 +71,8 @@ workflows:
           project: wtp_infra
           requires:
             - approve_terraform_plan
+      - deploy_infra_lambdas:
+          requires:
+            - terraform_apply
+orbs:
+  aws-s3: circleci/aws-s3@3.0
