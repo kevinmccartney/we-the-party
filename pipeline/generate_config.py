@@ -24,7 +24,6 @@ for project in changed_projects.items():
     (project_name, change_status) = project
 
     if change_status["terraform"] == True:
-        print(project_name, "has terraform changes")
         build_terraform_workflow(project_name, base)
 
     if change_status["src"] == True:
@@ -38,7 +37,5 @@ with open(circle_ci_generated_config, "w") as write_file:
     documents = yaml.dump(base, write_file, Dumper=Dumper, sort_keys=False)
 
 # https://stackoverflow.com/a/39591068
-contents = Path(circle_ci_generated_config).read_text()
-print(contents)
-
-# conditionally apply workflows with params
+# contents = Path(circle_ci_generated_config).read_text()
+# print(contents)
