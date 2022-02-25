@@ -1,6 +1,38 @@
+resource "aws_api_gateway_account" "cloudwatch_account" {
+  cloudwatch_role_arn = aws_iam_role.apigw_cloudwatch.arn
+}
+
 resource "aws_api_gateway_rest_api" "services" {
-  name = "wtp-service"
+  name = "wtp-infra-services"
   # disable_execute_api_endpoint = true
+}
+
+resource "aws_iam_role" "apigw_cloudwatch" {
+  name = "apigw_cloudwatch"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+# 
+data "aws_iam_policy" "AmazonAPIGatewayPushToCloudWatchLogs" {
+  name = "AmazonAPIGatewayPushToCloudWatchLogs"
+}
+
+resource "aws_iam_role_policy_attachment" "amazon-api-gateway-push-to-cloudwatch-logs" {
+  role       = aws_iam_role.apigw_cloudwatch.name
+  policy_arn = data.aws_iam_policy.AmazonAPIGatewayPushToCloudWatchLogs.arn
 }
 
 resource "aws_api_gateway_domain_name" "services" {
@@ -64,6 +96,25 @@ resource "aws_api_gateway_stage" "v1" {
   deployment_id = aws_api_gateway_deployment.services.id
   rest_api_id   = aws_api_gateway_rest_api.services.id
   stage_name    = "v1"
+
+  # https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway#create-an-http-api-with-api-gateway
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.services_gateway.arn
+
+    format = jsonencode({
+      requestId               = "$context.requestId"
+      sourceIp                = "$context.identity.sourceIp"
+      requestTime             = "$context.requestTime"
+      protocol                = "$context.protocol"
+      httpMethod              = "$context.httpMethod"
+      resourcePath            = "$context.resourcePath"
+      routeKey                = "$context.routeKey"
+      status                  = "$context.status"
+      responseLength          = "$context.responseLength"
+      integrationErrorMessage = "$context.integrationErrorMessage"
+      }
+    )
+  }
 }
 
 resource "aws_api_gateway_method_settings" "all" {
@@ -77,19 +128,40 @@ resource "aws_api_gateway_method_settings" "all" {
   }
 }
 
-resource "aws_cloudwatch_log_group" "example" {
-  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.services.id}/${aws_api_gateway_stage.v1.stage_name}"
-  retention_in_days = 7
+resource "aws_cloudwatch_log_group" "services_gateway" {
+  name = "/aws/api_gw/${aws_api_gateway_rest_api.services.name}"
+
+  retention_in_days = 30
 }
 
-resource "aws_lambda_permission" "apigw_lambda" {
+#####
+# Lambda
+#####
+resource "aws_cloudwatch_log_group" "ping_lambda" {
+  name = "/aws/lambda/${aws_lambda_function.ping.function_name}"
+
+  retention_in_days = 30
+}
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_integration#lambda-integration
+# resource "aws_lambda_permission" "apigw_lambda" {
+#   statement_id  = "AllowExecutionFromAPIGateway"
+#   action        = "lambda:InvokeFunction"
+#   function_name = aws_lambda_function.ping.function_name
+#   principal     = "apigateway.amazonaws.com"
+
+#   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
+#   source_arn = "arn:aws:execute-api:${var.wtp_aws_region}:${var.wtp_aws_account_id}:${aws_api_gateway_rest_api.services.id}/*/${aws_api_gateway_method.ping_get.http_method}${aws_api_gateway_resource.ping.path}"
+# }
+
+# https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway#create-an-http-api-with-api-gateway
+resource "aws_lambda_permission" "api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.ping.function_name
   principal     = "apigateway.amazonaws.com"
 
-  # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
-  source_arn = "arn:aws:execute-api:${var.wtp_aws_region}:${var.wtp_aws_account_id}:${aws_api_gateway_rest_api.services.id}/*/${aws_api_gateway_method.ping_get.http_method}${aws_api_gateway_resource.ping.path}"
+  source_arn = "${aws_api_gateway_rest_api.services.execution_arn}/*/*"
 }
 
 resource "aws_iam_role" "lambda_execution" {
