@@ -143,17 +143,6 @@ resource "aws_cloudwatch_log_group" "ping_lambda" {
   retention_in_days = 30
 }
 
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_integration#lambda-integration
-# resource "aws_lambda_permission" "apigw_lambda" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.ping.function_name
-#   principal     = "apigateway.amazonaws.com"
-
-#   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
-#   source_arn = "arn:aws:execute-api:${var.wtp_aws_region}:${var.wtp_aws_account_id}:${aws_api_gateway_rest_api.services.id}/*/${aws_api_gateway_method.ping_get.http_method}${aws_api_gateway_resource.ping.path}"
-# }
-
 # https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway#create-an-http-api-with-api-gateway
 resource "aws_lambda_permission" "api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
