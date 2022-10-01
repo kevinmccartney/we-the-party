@@ -1,0 +1,94 @@
+{
+  "breadcrumbs.enabled": false,
+  "debug.console.acceptSuggestionOnEnter": "on",
+  "debug.toolBarLocation": "docked",
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.cursorBlinking": "phase",
+  "editor.cursorStyle": "block",
+  "editor.lineNumbers": "on",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [
+    { "column": 80, "color": "rgba(255, 121, 198, 1)" } // Dracula pink
+  ],
+  "editor.scrollBeyondLastLine": false,
+  "editor.suggestSelection": "first",
+  "editor.tabCompletion": "on",
+  "eslint.alwaysShowStatus": true,
+  "explorer.autoReveal": true,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.decorations.badges": true,
+  "explorer.fileNesting.enabled": false,
+  "diffEditor.codeLens": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "files.autoSave": "onWindowChange",
+  "git.closeDiffOnOperation": true,
+  "git.pruneOnFetch": true,
+  "indentRainbow.colors": [
+    "rgba(139, 233, 253, 0.7)", // Dracula Cyan
+    "rgba(80, 250, 123, 0.7)", // Dracula Green
+    "rgba(255, 184, 108, 0.7)", // Dracula Orange
+    "rgba(255, 121, 198, 0.7)", // Dracula Pink
+    "rgba(189, 147, 249, 0.7)", // Dracula Puple
+    "rgba(255, 85, 85, 0.7)", // Dracula Red
+    "rgba(241, 250, 140, 0.7)" // Dracula Yellow
+  ],
+  "markdown.extension.print.theme": "dark",
+  "material-icon-theme.activeIconPack": "react_redux",
+  "peacock.favoriteColors": [
+    {
+      "name": "Dracula Cyan",
+      "value": "#8BE9FD"
+    },
+    {
+      "name": "Dracula Green",
+      "value": "#50FA7B"
+    },
+    {
+      "name": "Dracula Orange",
+      "value": "#FFB86C"
+    },
+    {
+      "name": "Dracula Pink",
+      "value": "#FF79C6"
+    },
+    {
+      "name": "Dracula Purple",
+      "value": "#BD93F9"
+    },
+    {
+      "name": "Dracula Red",
+      "value": "#FF5555"
+    },
+    {
+      "name": "Dracula Yellow",
+      "value": "#F1FA8C"
+    }
+  ],
+  "peacock.surpriseMeFromFavoritesOnly": true,
+  "peacock.surpriseMeOnStartup": true,
+  "scm.alwaysShowActions": false,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.enableBell": true,
+  "todo-tree.highlights.backgroundColourScheme": [
+    "#FF5555", // Dracula Red
+    "#FFB86C", // Dracula Orange
+    "#F1FA8C", // Dracula Yellow
+    "#50FA7B", // Dracula Green
+    "#8BE9FD", // Dracula Cyan
+    "#FF79C6", // Dracula Pink
+    "#BD93F9" // Dracula Purple
+  ],
+  "todo-tree.tree.buttons.scanMode": true,
+  "todo-tree.tree.showCountsInTree": true,
+  "vscode-pets.petSize": "medium",
+  "vscode-pets.position": "explorer",
+  "vscode-pets.theme": "forest",
+  "window.zoomLevel": 1,
+  "workbench.colorTheme": "Dracula",
+  "workbench.iconTheme": "material-icon-theme",
+  "[css]": {
+    "editor.suggest.insertMode": "replace"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "css.format.enable": false,
+  "css.validate": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "git.allowNoVerifyCommit": false,
+  "html.format.enable": false,
+  "javascript.format.enable": false,
+  "json.format.enable": false,
+  "prettier.useEditorConfig": false,
+  "python.formatting.provider": "none",
+  "python.languageServer": "Default",
+  "python.linting.pylintEnabled": true,
+  "stylelint.enable": true,
+  "terraform.experimentalFeatures.validateOnSave": true,
+  "terraform.languageServer.enable": true,
+  "typescript.format.enable": false,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  }
+}

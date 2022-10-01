@@ -1,0 +1,53 @@
+{
+  "recommendations": [
+    // IDE general tools
+    "ue.alphabetical-sorter",
+    "kisstkondoros.vscode-codemetrics",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "Gruntfuggly.todo-tree",
+    "deerawan.vscode-faker",
+    "aaron-bond.better-comments",
+    "nhoizey.gremlins",
+
+    // global formatter
+    "esbenp.prettier-vscode",
+
+    // theming
+    "dracula-theme.theme-dracula",
+    "PKief.material-icon-theme",
+    "johnpapa.vscode-peacock",
+    "oderwat.indent-rainbow",
+
+    // monorepo
+    "BazelBuild.vscode-bazel",
+
+    // a11y
+    "accessibility-snippets.accessibility-snippets",
+
+    // React/TSX
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+
+    // CSS
+    "stylelint.vscode-stylelint",
+    "kamikillerto.vscode-colorize",
+    "bradlc.vscode-tailwindcss",
+
+    // Python
+    "ms-python.vscode-pylance",
+    "ms-python.python",
+
+    // TypeScript
+    "dbaeumer.vscode-eslint",
+
+    // Terraform
+    "hashicorp.terraform",
+
+    // YAML
+    "redhat.vscode-yaml",
+
+    // fun
+    "tonybaloney.vscode-pets"
+  ]
+}

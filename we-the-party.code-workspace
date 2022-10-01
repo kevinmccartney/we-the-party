@@ -1,0 +1,260 @@
+// Dracula colors throughout are taken from the VS Code Dracula theme
+// https://github.com/dracula/visual-studio-code/blob/master/src/dracula.yml
+
+{
+  "folders": [
+    {
+      "path": "./",
+      "name": "Root"
+    },
+    {
+      "path": "projects/wtp_admin_api"
+    },
+    {
+      "path": "projects/wtp_admin_client"
+    },
+    {
+      "path": "projects/wtp_api"
+    },
+    {
+      "path": "projects/wtp_cli"
+    },
+    {
+      "path": "projects/wtp_client"
+    },
+    {
+      "path": "projects/wtp_infra"
+    }
+  ],
+  "settings": {
+    "breadcrumbs.enabled": false,
+    "codemetrics.nodeconfiguration.IfWithElseStatement": 1,
+    "css.format.enable": false,
+    "css.validate": false,
+    "cSpell.customDictionaries": {
+      "project-words": {
+        "name": "project-words",
+        "path": "${workspaceRoot}/project-words.txt",
+        "description": "Words used in this project",
+        "addWords": true
+      },
+      "custom": true, // Enable the `custom` dictionary
+      "internal-terms": false // Disable the `internal-terms` dictionary
+    },
+    "cSpell.logLevel": "Warning",
+    "cSpell.showAutocompleteSuggestions": true,
+    "debug.console.acceptSuggestionOnEnter": "on",
+    "debug.toolBarLocation": "docked",
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.cursorBlinking": "phase",
+    "editor.cursorStyle": "block",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.lineNumbers": "on",
+    "editor.linkedEditing": true,
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "all",
+    "editor.rulers": [
+      { "column": 80, "color": "#FF79C6" } // Dracula pink
+    ],
+    "editor.scrollBeyondLastLine": false,
+    "editor.suggest.localityBonus": true,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "on",
+    "editor.tabSize": 2,
+    "eslint.alwaysShowStatus": true,
+    "explorer.autoReveal": true,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.decorations.badges": true,
+    "explorer.fileNesting.enabled": false,
+    "diffEditor.codeLens": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.autoSave": "onWindowChange",
+    "files.exclude": {
+      "**/.git": false
+    },
+    "git.allowNoVerifyCommit": false,
+    "git.closeDiffOnOperation": true,
+    "git.enableSmartCommit": false,
+    "git.pruneOnFetch": true,
+    "gremlins.showInProblemPane": true,
+    "html.format.enable": false,
+    "indentRainbow.colors": [
+      "rgba(139, 233, 253, 0.7)", // Dracula Cyan
+      "rgba(80, 250, 123, 0.7)", // Dracula Green
+      "rgba(255, 184, 108, 0.7)", // Dracula Orange
+      "rgba(255, 121, 198, 0.7)", // Dracula Pink
+      "rgba(189, 147, 249, 0.7)", // Dracula Purple
+      "rgba(255, 85, 85, 0.7)", // Dracula Red
+      "rgba(241, 250, 140, 0.7)" // Dracula Yellow
+    ],
+    "javascript.format.enable": false,
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "javascript.referencesCodeLens.enabled": true,
+    "javascript.referencesCodeLens.showOnAllFunctions": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "json.format.enable": false,
+    "markdown.experimental.updateLinksOnFileMove.enabled": "always",
+    "markdown.experimental.validate.fileLinks.markdownFragmentLinks": "error",
+    "markdown.experimental.validate.enabled": true,
+    "markdown.experimental.validate.fileLinks.enabled": "error",
+    "markdown.experimental.validate.fragmentLinks.enabled": "error",
+    "markdown.experimental.validate.referenceLinks.enabled": "error",
+    "markdown.extension.italic.indicator": "_",
+    "markdown.extension.print.theme": "dark",
+    "material-icon-theme.activeIconPack": "react_redux",
+    "peacock.favoriteColors": [
+      {
+        "name": "Dracula Cyan",
+        "value": "#8BE9FD"
+      },
+      {
+        "name": "Dracula Green",
+        "value": "#50FA7B"
+      },
+      {
+        "name": "Dracula Orange",
+        "value": "#FFB86C"
+      },
+      {
+        "name": "Dracula Pink",
+        "value": "#FF79C6"
+      },
+      {
+        "name": "Dracula Purple",
+        "value": "#BD93F9"
+      },
+      {
+        "name": "Dracula Red",
+        "value": "#FF5555"
+      },
+      {
+        "name": "Dracula Yellow",
+        "value": "#F1FA8C"
+      }
+    ],
+    "peacock.surpriseMeFromFavoritesOnly": true,
+    "peacock.surpriseMeOnStartup": true,
+    "prettier.useEditorConfig": false,
+    "python.formatting.provider": "none",
+    "python.languageServer": "Default",
+    "python.linting.pylintEnabled": true,
+    "reactSnippets.settings.prettierEnabled": true,
+    "scm.alwaysShowActions": false,
+    "stylelint.enable": true,
+    "tailwindCSS.validate": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.enableBell": true,
+    "terraform.experimentalFeatures.validateOnSave": true,
+    "terraform.codelens.referenceCount": true,
+    "terraform.languageServer.enable": true,
+    "todo-tree.highlights.backgroundColourScheme": [
+      "#FF5555", // Dracula Red
+      "#FFB86C", // Dracula Orange
+      "#F1FA8C", // Dracula Yellow
+      "#50FA7B", // Dracula Green
+      "#8BE9FD", // Dracula Cyan
+      "#FF79C6", // Dracula Pink
+      "#BD93F9" // Dracula Purple
+    ],
+    "todo-tree.tree.buttons.scanMode": true,
+    "todo-tree.tree.showCountsInTree": true,
+    "typescript.format.enable": false,
+    "typescript.implementationsCodeLens.enabled": true,
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.referencesCodeLens.enabled": true,
+    "typescript.suggest.completeFunctionCalls": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "vscode-pets.petSize": "medium",
+    "vscode-pets.position": "explorer",
+    "vscode-pets.theme": "forest",
+    "window.zoomLevel": 1,
+    "workbench.colorTheme": "Dracula",
+    "workbench.iconTheme": "material-icon-theme",
+    "[css]": {
+      "editor.suggest.insertMode": "replace"
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "[terraform]": {
+      "editor.defaultFormatter": "hashicorp.terraform"
+    },
+    "peacock.color": "#FF5555",
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#ff8888",
+      "activityBar.background": "#ff8888",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "activityBarBadge.background": "#bfffbf",
+      "activityBarBadge.foreground": "#15202b",
+      "commandCenter.border": "#15202b99",
+      "sash.hoverBorder": "#ff8888",
+      "statusBar.background": "#ff5555",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.hoverBackground": "#ff2222",
+      "statusBarItem.remoteBackground": "#ff5555",
+      "statusBarItem.remoteForeground": "#15202b",
+      "titleBar.activeBackground": "#ff5555",
+      "titleBar.activeForeground": "#15202b",
+      "titleBar.inactiveBackground": "#ff555599",
+      "titleBar.inactiveForeground": "#15202b99"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      // IDE general tools
+      "ue.alphabetical-sorter",
+      "kisstkondoros.vscode-codemetrics",
+      "streetsidesoftware.code-spell-checker",
+      "eamodio.gitlens",
+      "Gruntfuggly.todo-tree",
+      "deerawan.vscode-faker",
+      "aaron-bond.better-comments",
+      "nhoizey.gremlins",
+
+      // global formatter
+      "esbenp.prettier-vscode",
+
+      // theming
+      "dracula-theme.theme-dracula",
+      "PKief.material-icon-theme",
+      "johnpapa.vscode-peacock",
+      "oderwat.indent-rainbow",
+
+      // monorepo
+      "BazelBuild.vscode-bazel",
+
+      // a11y
+      "accessibility-snippets.accessibility-snippets",
+
+      // React/TSX
+      "dsznajder.es7-react-js-snippets",
+      "formulahendry.auto-rename-tag",
+
+      // CSS
+      "stylelint.vscode-stylelint",
+      "kamikillerto.vscode-colorize",
+      "bradlc.vscode-tailwindcss",
+
+      // Python
+      "ms-python.vscode-pylance",
+      "ms-python.python",
+
+      // TypeScript
+      "dbaeumer.vscode-eslint",
+
+      // Terraform
+      "hashicorp.terraform",
+
+      // YAML
+      "redhat.vscode-yaml",
+
+      // fun
+      "tonybaloney.vscode-pets"
+    ]
+  }
+}
