@@ -1,0 +1,35 @@
+{
+  "general": [
+    "ue.alphabetical-sorter",
+    "kisstkondoros.vscode-codemetrics",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "Gruntfuggly.todo-tree",
+    "deerawan.vscode-faker",
+    "aaron-bond.better-comments",
+    "nhoizey.gremlins"
+  ],
+  "global_formatter": ["esbenp.prettier-vscode"],
+  "theming": [
+    "dracula-theme.theme-dracula",
+    "PKief.material-icon-theme",
+    "johnpapa.vscode-peacock",
+    "oderwat.indent-rainbow"
+  ],
+  "monorepo": ["BazelBuild.vscode-bazel"],
+  "a11y": ["accessibility-snippets.accessibility-snippets"],
+  "react_tsx": [
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag"
+  ],
+  "css": [
+    "stylelint.vscode-stylelint",
+    "kamikillerto.vscode-colorize",
+    "bradlc.vscode-tailwindcss"
+  ],
+  "python": ["ms-python.vscode-pylance", "ms-python.python"],
+  "typescript": ["dbaeumer.vscode-eslint"],
+  "terraform": ["hashicorp.terraform"],
+  "yaml": ["redhat.vscode-yaml"],
+  "fun": ["tonybaloney.vscode-pets"]
+}

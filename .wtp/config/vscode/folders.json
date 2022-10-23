@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "path": "./",
+      "name": "Root"
+    },
+    {
+      "path": "projects/wtp_admin_api"
+    },
+    {
+      "path": "projects/wtp_admin_client"
+    },
+    {
+      "path": "projects/wtp_api"
+    },
+    {
+      "path": "projects/wtp_cli"
+    },
+    {
+      "path": "projects/wtp_client"
+    },
+    {
+      "path": "projects/wtp_infra"
+    }
+  ]
+}

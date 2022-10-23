@@ -1,0 +1,109 @@
+{
+ "folders": "[{\"path\":\"./\",\"name\":\"Root\"},{\"path\":\"projects/wtp_admin_api\",\"name\":null},{\"path\":\"projects/wtp_admin_client\",\"name\":null},{\"path\":\"projects/wtp_api\",\"name\":null},{\"path\":\"projects/wtp_cli\",\"name\":null},{\"path\":\"projects/wtp_client\",\"name\":null},{\"path\":\"projects/wtp_infra\",\"name\":null}]",
+ "settings": {
+  "css.format.enable": false,
+  "css.validate": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "git.allowNoVerifyCommit": false,
+  "html.format.enable": false,
+  "javascript.format.enable": false,
+  "json.format.enable": false,
+  "prettier.useEditorConfig": false,
+  "python.defaultInterpreterPath": "~/Library/Caches/pypoetry/virtualenvs/wethe-party-2H8ma04X-py3.9/bin/python",
+  "python.formatting.provider": "none",
+  "python.languageServer": "Default",
+  "python.linting.enabled": true,
+  "python.linting.pylintArgs": [
+   "--rcfile=/Users/kevinmccartney/workspace/wethe.party/.pylintrc"
+  ],
+  "python.linting.pylintEnabled": true,
+  "python.sortImports.path": "isort",
+  "stylelint.enable": true,
+  "terraform.experimentalFeatures.validateOnSave": true,
+  "terraform.languageServer.enable": true,
+  "typescript.format.enable": false,
+  "[python]": {
+   "editor.defaultFormatter": "ms-python.black-formatter",
+   "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+   }
+  },
+  "[terraform]": {
+   "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "codemetrics.nodeconfiguration.IfWithElseStatement": 1,
+  "cSpell.customDictionaries": {
+   "project-words": {
+    "name": "project-words",
+    "path": "${workspaceRoot}/project-words.txt",
+    "description": "Words used in this project",
+    "addWords": true
+   },
+   "custom": true,
+   "internal-terms": false
+  },
+  "cSpell.logLevel": "Warning",
+  "cSpell.showAutocompleteSuggestions": true,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.formatOnPaste": true,
+  "editor.linkedEditing": true,
+  "editor.suggest.localityBonus": true,
+  "editor.tabSize": 2,
+  "files.exclude": {
+   "**/.git": false
+  },
+  "git.enableSmartCommit": false,
+  "gremlins.showInProblemPane": true,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "markdown.experimental.updateLinksOnFileMove.enabled": "always",
+  "markdown.experimental.validate.fileLinks.markdownFragmentLinks": "error",
+  "markdown.experimental.validate.enabled": true,
+  "markdown.experimental.validate.fileLinks.enabled": "error",
+  "markdown.experimental.validate.fragmentLinks.enabled": "error",
+  "markdown.experimental.validate.referenceLinks.enabled": "error",
+  "markdown.extension.italic.indicator": "_",
+  "markdown.extension.print.theme": "dark",
+  "reactSnippets.settings.prettierEnabled": true,
+  "tailwindCSS.validate": true,
+  "terraform.codelens.referenceCount": true,
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.updateImportsOnFileMove.enabled": "always"
+ },
+ "extensions": {
+  "recommendations": [
+   "ue.alphabetical-sorter",
+   "kisstkondoros.vscode-codemetrics",
+   "streetsidesoftware.code-spell-checker",
+   "eamodio.gitlens",
+   "Gruntfuggly.todo-tree",
+   "deerawan.vscode-faker",
+   "aaron-bond.better-comments",
+   "nhoizey.gremlins",
+   "esbenp.prettier-vscode",
+   "dracula-theme.theme-dracula",
+   "PKief.material-icon-theme",
+   "johnpapa.vscode-peacock",
+   "oderwat.indent-rainbow",
+   "BazelBuild.vscode-bazel",
+   "accessibility-snippets.accessibility-snippets",
+   "dsznajder.es7-react-js-snippets",
+   "formulahendry.auto-rename-tag",
+   "stylelint.vscode-stylelint",
+   "kamikillerto.vscode-colorize",
+   "bradlc.vscode-tailwindcss",
+   "ms-python.vscode-pylance",
+   "ms-python.python",
+   "dbaeumer.vscode-eslint",
+   "hashicorp.terraform",
+   "redhat.vscode-yaml",
+   "tonybaloney.vscode-pets"
+  ]
+ }
+}

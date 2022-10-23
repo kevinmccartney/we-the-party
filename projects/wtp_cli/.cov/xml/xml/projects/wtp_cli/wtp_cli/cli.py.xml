@@ -1,0 +1,23 @@
+<?xml-stylesheet type="text/xsl" href="../../../../mypy-html.xslt"?>
+<mypy-report-file name="projects/wtp_cli/wtp_cli/cli.py" module="cli">
+  <line any_info="No Anys on this line!" content="&quot;&quot;&quot;" number="1" precision="empty" />
+  <line any_info="No Anys on this line!" content="The main CLI module." number="2" precision="empty" />
+  <line any_info="No Anys on this line!" content="" number="3" precision="empty" />
+  <line any_info="No Anys on this line!" content="Exports the click instance that makes up the wtp CLI" number="4" precision="empty" />
+  <line any_info="No Anys on this line!" content="&quot;&quot;&quot;" number="5" precision="empty" />
+  <line any_info="No Anys on this line!" content="import click" number="6" precision="precise" />
+  <line any_info="No Anys on this line!" content="import generate" number="7" precision="precise" />
+  <line any_info="No Anys on this line!" content="import run" number="8" precision="precise" />
+  <line any_info="No Anys on this line!" content="" number="9" precision="empty" />
+  <line any_info="No Anys on this line!" content="" number="10" precision="empty" />
+  <line any_info="Any Types on this line: &#10;Explicit (x10)" content="@click.group()" number="11" precision="precise" />
+  <line any_info="No Anys on this line!" content="def cli() -&gt; None:" number="12" precision="precise" />
+  <line any_info="No Anys on this line!" content="    &quot;&quot;&quot;Acts as root for the rest of the CLI command tree&quot;&quot;&quot;" number="13" precision="empty" />
+  <line any_info="No Anys on this line!" content="" number="14" precision="empty" />
+  <line any_info="No Anys on this line!" content="" number="15" precision="empty" />
+  <line any_info="No Anys on this line!" content="# building run command tree" number="16" precision="empty" />
+  <line any_info="No Anys on this line!" content="cli.add_command(run.run)" number="17" precision="precise" />
+  <line any_info="No Anys on this line!" content="" number="18" precision="empty" />
+  <line any_info="No Anys on this line!" content="# building config command tree" number="19" precision="empty" />
+  <line any_info="No Anys on this line!" content="cli.add_command(generate.generate)" number="20" precision="precise" />
+</mypy-report-file>

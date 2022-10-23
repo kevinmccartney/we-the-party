@@ -1,0 +1,6 @@
+Name      Lines  Precise  Imprecise  Any  Empty  Unanalyzed
+-----------------------------------------------------------
+cli          20        7          0    0     13           0
+generate    270      124         22   11    113           0
+run         129       67          1   16     45           0
+utils       199       85          0   24     90           0

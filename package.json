@@ -2,6 +2,15 @@
   "name": "wethe.party",
   "version": "0.1.0",
   "description": "A social jukebox, for friends, enemies, & everyone in between.",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -11,7 +20,35 @@
     "inquirer": "^8.2.4"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "admin-api:start": "wtp start aws-lambda projects.wtp_admin_api.src.wtp_admin_api.ping",
+    "admin-api:start:debug": "wtp start aws-lambda projects.wtp_admin_api.src.wtp_admin_api.ping",
+    "admin-api:test": "pytest projects/wtp_admin_api/src/wtp_admin_api",
+    "admin-api:test:debug": "python -m debugpy--listen 5678 --wait-for-client -m pytest projects/wtp_admin_api/src/wtp_admin_api",
+    "admin-client:start": "cd projects/wtp_admin_client && react-scripts start",
+    "admin-client:build": "cd projects/wtp_admin_client && react-scripts build",
+    "admin-client:test": "cd projects/wtp_admin_client && react-scripts test",
+    "client:start": "cd projects/wtp_client && react-scripts start",
+    "client:build": "cd projects/wtp_client && react-scripts build",
+    "client:test": "cd projects/wtp_client && react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "repository": {
     "type": "git",

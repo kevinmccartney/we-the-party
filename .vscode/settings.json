@@ -1,14 +1,21 @@
 {
-  "cSpell.words": [
-    "circleci",
-    "deps",
-    "elif",
-    "hashicorp",
-    "kevinmccartney",
-    "tfapply",
-    "tfvars",
-    "wethe"
-  ],
-  "python.formatting.provider": "black",
-  "editor.formatOnSave": true
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ff8888",
+    "activityBar.background": "#ff8888",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#bfffbf",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#ff8888",
+    "statusBar.background": "#ff5555",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#ff2222",
+    "statusBarItem.remoteBackground": "#ff5555",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#ff5555",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#ff555599",
+    "titleBar.inactiveForeground": "#15202b99"
+  }
 }
